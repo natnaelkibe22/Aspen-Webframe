@@ -1,0 +1,39 @@
+/* dark red: #9e0b0f
+light red: #b8101f
+*/
+body {
+	color: #9e0b0f;
+	background-color: #aaaaaa;
+	font-family: 'Titillium Web', sans-serif;
+	text-align: center;
+	vertical-align: middle;
+	font-size: xx-large;
+}
+
+@font-face {
+  font-family: 'Freshman';
+  src: url('../font/freshman.ttf');
+}
+
+.main {
+ 	background-color: #FFFFFF;
+ 	border-style: solid;
+}
+
+#mHeader {
+	font-family: 'Freshman', sans-serif;
+}
+
+#load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url('../img/preload.gif') no-repeat center center rgba(184, 16, 31, 1); /* http://hex2rgba.devoth.com/ */
+}
+
+.fadeHidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .25s, opacity .25s linear;
+}
