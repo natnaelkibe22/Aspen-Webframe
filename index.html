@@ -6,20 +6,26 @@
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 
 <script type="text/javascript" src="js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body onload="main();">
 <div id="load"></div>
+
 <div class="main">
-<div id="mHeader">
+<div class="mainItems">
+<div id="mHeader" class="mainInfoItem">
 <h1>M</h1>
 </div>
-<div id="day">
-<h3>Day <span id='dayNumber'>0</span></h3>
+<div id="day" class="mainInfoItem">
+<h1 id="dayText">Day <span id='dayNumber'>0</span></h3>
 </div>
-<div id="block">
-<h2 id="block">Block <span id='blockId'>X</span></h2>
+<div id="block" class="mainInfoItem">
+<h1 id="blockText">Block <span id='blockId'>X</span></h2>
 </div>
 </div>
+</div>
+
 </body>
 </html>

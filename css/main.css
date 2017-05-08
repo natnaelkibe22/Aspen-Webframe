@@ -1,13 +1,8 @@
 /* dark red: #9e0b0f
 light red: #b8101f
 */
-body {
-	color: #9e0b0f;
+html {
 	background-color: #aaaaaa;
-	font-family: 'Titillium Web', sans-serif;
-	text-align: center;
-	vertical-align: middle;
-	font-size: xx-large;
 }
 
 @font-face {
@@ -16,8 +11,24 @@ body {
 }
 
 .main {
- 	background-color: #FFFFFF;
- 	border-style: solid;
+	background-color: #FFFFFF;
+	border-style: solid;
+	color: #9e0b0f;
+	font-family: 'Titillium Web', sans-serif;
+	font-size: xx-large;
+}
+
+.items {
+	display: flex;
+	flex-direction: column;
+}
+
+.mainInfoItem {
+	width: 10%;
+	height: 10%;
+	margin: auto;
+	text-align: center;
+	vertical-align: middle;
 }
 
 #mHeader {

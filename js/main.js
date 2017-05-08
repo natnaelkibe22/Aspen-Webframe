@@ -21,12 +21,13 @@ loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(respon
 
   document.getElementById('dayNumber').innerHTML = day;
   if (block != 'Z'){
-  document.getElementById('blockId').innerHTML = block;
+  	document.getElementById('blockId').innerHTML = block;
   } else {
-	document.getElementByClass('block')[0].innerHTML = null;
-  }
+	document.getElementsById('block').className = " fadeHidden";
+}
 
   // Once loading is complete, render page
   document.getElementById('load').className += " fadeHidden";
+  alert("ehllo");
 });
 }
