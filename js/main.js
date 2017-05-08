@@ -14,7 +14,7 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
 
 function main(){
 loggedOutAspen = new HttpClient();
-loggedOutAspen.get('http://mhs-aspencheck-serve.herokuapp.com', function(response) {
+loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
   var aspenInfo = JSON.parse(response);
   var block = (aspenInfo.block);
   var day = (aspenInfo.day);
