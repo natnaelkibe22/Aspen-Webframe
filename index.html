@@ -1,31 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>MHS Schedule</title>
-<link rel="stylesheet" type="text/css" href="css/main.css">
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MHS Schedule</title>
 
-<script type="text/javascript" src="js/main.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script type="text/javascript" src="js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body onload="main();">
-<div id="load"></div>
+<!-- Bootstrap Header -->
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" id="mHeader" href="#">M</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
 
-<div class="main">
-<div class="mainItems">
-<div id="mHeader" class="mainInfoItem">
-<h1>M</h1>
-</div>
-<div id="day" class="mainInfoItem">
-<h1 id="dayText">Day <span id='dayNumber'>0</span></h3>
-</div>
-<div id="block" class="mainInfoItem">
-<h1 id="blockText">Block <span id='blockId'>X</span></h2>
-</div>
-</div>
-</div>
+  <div class="alert alert-warning" role="alert" id="fetchIssue">
+    <strong>Oh snap!</strong> There was an issue while getting information from Aspen. Some items may be inaccurate!
+  </div>
 
+  <div class="page-header">
+    <h1>Today's Information <span class="glyphicon glyphicon-refresh spinning" id="aspenLoadingSpinner"></span></h1>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Day</h3>
+    </div>
+    <div class="panel-body">
+      Day <span id='dayNumber'>0</span>
+    </div>
+  </div>
+
+  <div class="panel panel-default" id="block-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">Block</h3>
+    </div>
+    <div class="panel-body">
+      <span id='blockId'>Z</span> Block
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Day Progress</h3>
+    </div>
+    <div class="panel-body">
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" id="dayProgress" style="width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Schedule</h3>
+    </div>
+    <div class="panel-body" id="schedule-body"></div>
+  </div>
+  -->
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Lunch Special</h3>
+    </div>
+    <div class="panel-body" id="lunch-body">Unknown Lunch</div>
+  </div>
 </body>
 </html>
