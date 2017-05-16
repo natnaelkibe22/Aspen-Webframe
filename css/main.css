@@ -1,6 +1,10 @@
 /* dark red: #9e0b0f
 light red: #b8101f
 */
+html {
+  height: 100%;
+}
+
 
 @font-face {
   font-family: 'Freshman';
@@ -12,9 +16,15 @@ light red: #b8101f
     to { transform: scale(1) rotate(360deg); }
 }
 
+.panel-title {
+  font-weight: bolder;
+  font-size: inherit;
+}
+
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
+  font-size: 250%;
 }
 
 #mHeader {
@@ -27,10 +37,6 @@ light red: #b8101f
 
 #fetchIssue {
   display: none;
-}
-
-.panel-title {
-  font-weight: bolder;
 }
 
 .fadeHidden {
