@@ -12,6 +12,11 @@ light red: #b8101f
     to { transform: scale(1) rotate(360deg); }
 }
 
+#mainInfoWrapper {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 #mHeader {
 	font-family: 'Freshman', sans-serif;
 }
