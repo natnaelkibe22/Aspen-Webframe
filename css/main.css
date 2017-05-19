@@ -5,10 +5,9 @@ html {
   height: 100%;
 }
 
-
 @font-face {
   font-family: 'Freshman';
-  src: url('../font/freshman.ttf');
+  src: url('../font/freshman.ttf') format('embedded-opentype');
 }
 
 @keyframes spin {
