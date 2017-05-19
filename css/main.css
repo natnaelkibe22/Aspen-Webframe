@@ -7,7 +7,7 @@ html {
 
 @font-face {
   font-family: 'Freshman';
-  src: url('../font/freshman.ttf') format('embedded-opentype');
+  src: url('../font/freshman.ttf');
 }
 
 @keyframes spin {
