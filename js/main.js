@@ -21,6 +21,8 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
 }
 
 function main(){
+  clock();
+
   // Aspen Stuff
   loggedOutAspen = new HttpClient();
   try {
@@ -46,4 +48,32 @@ function main(){
   var lunchtag = document.createElement("script");
   lunchtag.src = "https://melroseschools.nutrislice.com/menu/api/weeks/school/melrose/menu-type/lunch/" + today.getFullYear() + "/00/00/?format=json-p&callback=getLunchInfo";
   document.getElementsByTagName('head')[0].appendChild(lunchtag);
+}
+
+function clock(){
+  // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
+var countDownDate = new Date();
+var time = +countDownDate;
+
+countDownDate.setHours(14,11,10,0);
+if (countDownDate < time) {
+  countDownDate.setDate(countDownDate.getDate() + 1);
+}
+
+// Update the count down every 1 second
+var timer = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+}, 1000);
 }
