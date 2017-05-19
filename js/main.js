@@ -31,10 +31,12 @@ function main(){
       var block = (aspenInfo.schedule.block);
       var day = (aspenInfo.schedule.day);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
+      var percentComplete = (blockOfDay/6)*100;
 
       document.getElementById('dayNumber').innerHTML = day;
       document.getElementById('blockId').innerHTML = block;
-      document.getElementById('dayProgress').style = "width: " + (blockOfDay/6)*100 +"%;";
+      document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
+      document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
       if (block == 'Z') document.getElementById('block-panel').className += " fadeHidden";
 
       // Once loading is complete, render page
