@@ -21,8 +21,6 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
 }
 
 function main(){
-  clock();
-
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
   lunchtag.src = "https://melroseschools.nutrislice.com/menu/api/weeks/school/melrose/menu-type/lunch/" + today.getFullYear() + "/00/00/?format=json-p&callback=getLunchInfo";
@@ -35,8 +33,11 @@ function main(){
       var aspenInfo = JSON.parse(response);
       var block = (aspenInfo.schedule.block);
       var day = (aspenInfo.schedule.day);
+      var isHalfDay = (aspenInfo.calendar.isHalfDay);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
       var percentComplete = (blockOfDay/6)*100;
+
+      clock(isHalfDay);
 
       document.getElementById('dayNumber').innerHTML = day;
       document.getElementById('blockId').innerHTML = block;
@@ -49,15 +50,20 @@ function main(){
     });
   } catch (error) {
     document.getElementById('fetchIssue').style += 'display:inherit;'
+    clock(false);
   }
 }
 
-function clock(){
+function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
   var countDownDate = new Date();
   var time = +countDownDate;
 
-  countDownDate.setHours(14,11,10,0);
+  if (isHalfDay){
+    countDownDate.setHours(12,11,10,0);
+  } else {
+    countDownDate.setHours(14,11,10,0);
+  }
   if (countDownDate < time) {
     countDownDate.setDate(countDownDate.getDate() + 1);
   }

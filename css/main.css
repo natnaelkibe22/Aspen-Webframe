@@ -23,7 +23,7 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1.8vw;
+  font-size: 1.8vw; /* TODO make this look better on phones */
   font-family: 'Ubuntu', sans-serif;
 }
 
