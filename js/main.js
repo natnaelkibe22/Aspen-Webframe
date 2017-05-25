@@ -31,6 +31,7 @@ function main(){
   try {
     loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
       var aspenInfo = JSON.parse(response);
+      var lastUpdated = new Date(aspenInfo.asOf*1000);
       var block = (aspenInfo.schedule.block);
       var day = (aspenInfo.schedule.day);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
@@ -47,6 +48,7 @@ function main(){
       document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
       document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
       if (block == 'Z') document.getElementById('block-panel').className += " fadeHidden";
+      document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
       if (events.length > 0){
         document.getElementById('events-list').innerHTML = null;
