@@ -33,8 +33,11 @@ function main(){
       var aspenInfo = JSON.parse(response);
       var block = (aspenInfo.schedule.block);
       var day = (aspenInfo.schedule.day);
-      var isHalfDay = (aspenInfo.calendar.isHalfDay);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
+
+      var events = (aspenInfo.calendar.events);
+      var isHalfDay = (aspenInfo.calendar.isHalfDay);
+
       var percentComplete = (blockOfDay/6)*100;
 
       clock(isHalfDay);
@@ -44,6 +47,15 @@ function main(){
       document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
       document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
       if (block == 'Z') document.getElementById('block-panel').className += " fadeHidden";
+
+      if (events.length > 0){
+        document.getElementById('events-list').innerHTML = null;
+        events.forEach(function(eventTitle){
+          var event = document.createElement('li');
+          event.innerHTML = eventTitle;
+          document.getElementById('events-list').appendChild(event);
+        });
+      }
 
       // Once loading is complete, render page
       document.getElementById('aspenLoadingSpinner').className += " fadeHidden";
