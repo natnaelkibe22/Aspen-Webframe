@@ -27,6 +27,11 @@ html {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.megapanel {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 #mHeader {
 	font-family: 'Freshman', sans-serif;
 }

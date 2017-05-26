@@ -33,6 +33,7 @@ function main(){
       var aspenInfo = JSON.parse(response);
       var lastUpdated = new Date(aspenInfo.asOf*1000);
       var block = (aspenInfo.schedule.block);
+      var blockSchedule = (aspenInfo.schedule.blockSchedule);
       var day = (aspenInfo.schedule.day);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
 
@@ -51,12 +52,18 @@ function main(){
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
       if (events.length > 0){
-        document.getElementById('events-list').innerHTML = null;
+        document.getElementById('events-list').innerHTML = "";
         events.forEach(function(eventTitle){
           var event = document.createElement('li');
           event.innerHTML = eventTitle;
           document.getElementById('events-list').appendChild(event);
         });
+      }
+
+      if (blockSchedule.length > 0){
+        document.getElementById('schedule-body').innerHTML = blockSchedule;
+      } else {
+        document.getElementById('schedule-panel').className += " fadeHidden";
       }
 
       // Once loading is complete, render page
