@@ -74,7 +74,7 @@ function main(){
       document.getElementById('aspenLoadingSpinner').className += " fadeHidden";
     });
   } catch (error) {
-    document.getElementById('fetchIssue').style += 'display:inherit;'
+    document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
     clock(false);
   }
 }
