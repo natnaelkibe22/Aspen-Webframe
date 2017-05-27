@@ -15,9 +15,13 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
 }
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
-  var lunchSpecial = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
+  try {
+    var lunchSpecial = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
 
-  document.getElementById('lunch-body').innerHTML = lunchSpecial;
+    document.getElementById('lunch-body').innerHTML = lunchSpecial;
+  } catch (error){
+    document.getElementById('lunch-body').innerHTML = "No Lunch Served";
+  }
 }
 
 function main(){
