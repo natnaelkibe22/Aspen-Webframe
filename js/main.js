@@ -101,7 +101,7 @@ function clock(isHalfDay) {
     var distance = countDownDate - now;
     var fullDay = countDownDate - startTime;
     var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
-    if(percentThroughDay > 100) percentThroughDay = 100;
+    if(percentThroughDay > 100 || (now%(1000*60*60*24) > countDownDate%(1000*60*60*24))) percentThroughDay = 100;
 
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
