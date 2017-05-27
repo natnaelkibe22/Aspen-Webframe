@@ -50,7 +50,7 @@ function main() {
                 blockSchedule = [];
                 day = 0;
                 events = [];
-                isHalfDay = 'NaN';
+                isHalfDay = false;
             }
 
             clock(isHalfDay);
