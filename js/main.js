@@ -22,6 +22,10 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   }
 }
 
+function getTimeOfDay(date){
+  return date.getHours()*(60*60*1000) + date.getMinutes()*(60* 1000) + date.getSeconds()*(1000) + date.getMilliseconds();
+}
+
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
   const start = new Date();
@@ -63,7 +67,6 @@ function clock(isHalfDay){
         start.setDate(today.getDate() + 1);
         timeUntilStart = start-today;
       }
-      console.log("TimeUntilStart: "+timeUntilStart);
       setTimeout(main, timeUntilStart);
     }else{
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -75,10 +78,6 @@ function clock(isHalfDay){
     document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
     document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
   }, 1000);
-}
-
-function getTimeOfDay(date){
-  return date.getHours()*(60*60*1000) + date.getMinutes()*(60* 1000) + date.getSeconds()*(1000) + date.getMilliseconds();
 }
 
 function main(){
