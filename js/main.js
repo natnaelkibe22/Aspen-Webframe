@@ -24,14 +24,16 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
 
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
-  const startTime = (new Date()).setHours(7, 45, 0, 0);
+  const start = new Date();
+  start.setHours(7, 45, 0, 0);
+  const startTime = start.getTime();
   var countDownDate = new Date();
-  var time =+ countDownDate;
+  var time = +countDownDate;
 
   if (isHalfDay){
     countDownDate.setHours(12,11,10,0);
   } else {
-    countDownDate.setHours(17,1,10,0);
+    countDownDate.setHours(14,11,10,0);
   }
   if (countDownDate < time) {
     countDownDate.setDate(countDownDate.getDate() + 1);
@@ -39,16 +41,30 @@ function clock(isHalfDay){
 
 // Update the count down every 1 second
   var timer = setInterval(function() {
-    var now = new Date().getTime();
+    var today = new Date();
+    var now = today.getTime();
     var distance = countDownDate - now;
     var fullDay = countDownDate - startTime;
     var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
     var hours, minutes, seconds;
-    if (percentThroughDay > 100 || (now%(86400000) > countDownDate%(86400000))){
+    if (percentThroughDay > 100 || getTimeOfDay(today) > getTimeOfDay(countDownDate) || getTimeOfDay(start) > getTimeOfDay(today)){
+      const today = new Date();
       percentThroughDay = 100;
       hours = 0;
       minutes = 0;
       seconds = 0;
+      clearInterval(timer);
+      var timeUntilStart;
+      if(getTimeOfDay(today) < getTimeOfDay(start)){
+        //If it is morning before school
+        timeUntilStart = start-today;
+      }else{
+        //If it is after school
+        start.setDate(today.getDate() + 1);
+        timeUntilStart = start-today;
+      }
+      console.log("TimeUntilStart: "+timeUntilStart);
+      setTimeout(main, timeUntilStart);
     }else{
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -58,11 +74,11 @@ function clock(isHalfDay){
     document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
     document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
     document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
-
-    if (distance < 0) {
-      document.getElementById("timer").innerHTML = "EXPIRED";
-    }
   }, 1000);
+}
+
+function getTimeOfDay(date){
+  return date.getHours()*(60*60*1000) + date.getMinutes()*(60* 1000) + date.getSeconds()*(1000) + date.getMilliseconds();
 }
 
 function main(){
