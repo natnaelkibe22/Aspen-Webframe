@@ -16,9 +16,7 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   try {
-    var lunchSpecial = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
-
-    document.getElementById('lunch-body').innerHTML = lunchSpecial;
+    document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
   } catch (error){
     document.getElementById('lunch-body').innerHTML = "No Lunch Served";
   }
@@ -26,33 +24,45 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
 
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
+  const startTime = (new Date()).setHours(7, 45, 0, 0);
   var countDownDate = new Date();
   var time =+ countDownDate;
 
   if (isHalfDay){
     countDownDate.setHours(12,11,10,0);
   } else {
-    countDownDate.setHours(14,11,10,0);
+    countDownDate.setHours(17,1,10,0);
   }
   if (countDownDate < time) {
     countDownDate.setDate(countDownDate.getDate() + 1);
   }
 
 // Update the count down every 1 second
-var timer = setInterval(function() {
-  var now = new Date().getTime();
-  var distance = countDownDate - now;
+  var timer = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownDate - now;
+    var fullDay = countDownDate - startTime;
+    var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
+    var hours, minutes, seconds;
+    if (percentThroughDay > 100 || (now%(86400000) > countDownDate%(86400000))){
+      percentThroughDay = 100;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+    }else{
+      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    }
 
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+    document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
 
-  document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-  if (distance < 0) {
-    document.getElementById("timer").innerHTML = "EXPIRED";
-  }
-}, 1000);
+    if (distance < 0) {
+      document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+  }, 1000);
 }
 
 function main(){
@@ -70,20 +80,15 @@ function main(){
       var block = (aspenInfo.schedule.block);
       var blockSchedule = (aspenInfo.schedule.blockSchedule);
       var day = (aspenInfo.schedule.day);
-      var blockOfDay = (aspenInfo.schedule.blockOfDay);
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
       var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
-      var percentComplete = (blockOfDay/6)*100;
-
       clock(isHalfDay);
 
       document.getElementById('dayNumber').innerHTML = day;
       document.getElementById('blockId').innerHTML = block;
-      document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
-      document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
       if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       if (block === 'Z') { document.getElementById('block-panel').className += " fadeHidden"; }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
