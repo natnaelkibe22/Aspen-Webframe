@@ -40,6 +40,7 @@ function main(){
       var blockSchedule = (aspenInfo.schedule.blockSchedule);
       var day = (aspenInfo.schedule.day);
       var blockOfDay = (aspenInfo.schedule.blockOfDay);
+      var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
       var isHalfDay = (aspenInfo.calendar.isHalfDay);
@@ -52,6 +53,7 @@ function main(){
       document.getElementById('blockId').innerHTML = block;
       document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
       document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
+      if (classInSession) document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active');
       if (block == 'Z') document.getElementById('block-panel').className += " fadeHidden";
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
