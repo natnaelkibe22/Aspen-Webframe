@@ -16,18 +16,23 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   try {
-    var lunchSpecial = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
-
-    document.getElementById('lunch-body').innerHTML = lunchSpecial;
+    document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
   } catch (error){
     document.getElementById('lunch-body').innerHTML = "No Lunch Served";
   }
 }
 
+function getTimeOfDayMillis(date){
+  return date.getHours()*(60*60*1000) + date.getMinutes()*(60* 1000) + date.getSeconds()*(1000) + date.getMilliseconds();
+}
+
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
+  const start = new Date();
+  start.setHours(7, 45, 0, 0);
+  const startTime = start.getTime();
   var countDownDate = new Date();
-  var time =+ countDownDate;
+  var time = +countDownDate;
 
   if (isHalfDay){
     countDownDate.setHours(12,11,10,0);
@@ -39,20 +44,44 @@ function clock(isHalfDay){
   }
 
 // Update the count down every 1 second
-var timer = setInterval(function() {
-  var now = new Date().getTime();
-  var distance = countDownDate - now;
+  var timer = setInterval(function() {
+    var currentDate = new Date();
+    var now = currentDate.getTime();
+    var distance = countDownDate - now;
+    var fullDay = countDownDate - startTime;
+    var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
+    var hours, minutes, seconds;
+    if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate) || getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
+      percentThroughDay = 100;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+      clearInterval(timer);
+      setStartTimeOut(start);
+    }else{
+      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    }
 
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+    document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
+  }, 1000);
+}
 
-  document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-
-  if (distance < 0) {
-    document.getElementById("timer").innerHTML = "EXPIRED";
+function setStartTimeOut(startDate){
+  var currentDate = new Date();
+  var timeUntilStart;
+  if(getTimeOfDayMillis(currentDate) < getTimeOfDayMillis(startDate)){
+    //If it is morning before school
+    timeUntilStart = startDate-currentDate;
+  }else{
+    //If it is after school
+    startDate.setDate(currentDate.getDate() + 1);
+    timeUntilStart = startDate-currentDate;
   }
-}, 1000);
+  setTimeout(function(){location.reload()}, timeUntilStart);
 }
 
 function main(){
@@ -70,20 +99,15 @@ function main(){
       var block = (aspenInfo.schedule.block);
       var blockSchedule = (aspenInfo.schedule.blockSchedule);
       var day = (aspenInfo.schedule.day);
-      var blockOfDay = (aspenInfo.schedule.blockOfDay);
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
       var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
-      var percentComplete = (blockOfDay/6)*100;
-
       clock(isHalfDay);
 
       document.getElementById('dayNumber').innerHTML = day;
       document.getElementById('blockId').innerHTML = block;
-      document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentComplete + '%;');
-      document.getElementById('dayProgress').innerHTML = Math.round(percentComplete) + '%';
       if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       if (block === 'Z') { document.getElementById('block-panel').className += " fadeHidden"; }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
