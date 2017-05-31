@@ -122,7 +122,11 @@ function main(){
       }
 
       if (blockSchedule.length > 0){
-        document.getElementById('schedule-body').innerHTML = blockSchedule;
+        var blocks = "";
+        blockSchedule.forEach(function(block){
+          blocks += "<div class='blockContainer'>"+block+"</div>"
+        });
+        document.getElementById('schedule-body').innerHTML = blocks;
       } else {
         document.getElementById('schedule-panel').className += " fadeHidden";
       }
