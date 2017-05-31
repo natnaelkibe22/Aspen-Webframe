@@ -57,16 +57,7 @@ function clock(isHalfDay){
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
-      var timeUntilStart;
-      if(getTimeOfDayMillis(currentDate) < getTimeOfDayMillis(start)){
-        //If it is morning before school
-        timeUntilStart = start-currentDate;
-      }else{
-        //If it is after school
-        start.setDate(currentDate.getDate() + 1);
-        timeUntilStart = start-currentDate;
-      }
-      setTimeout(main, timeUntilStart);
+      setStartTimeOut(start);
     }else{
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -77,6 +68,20 @@ function clock(isHalfDay){
     document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
     document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
   }, 1000);
+}
+
+function setStartTimeOut(startDate){
+  var currentDate = new Date();
+  var timeUntilStart;
+  if(getTimeOfDayMillis(currentDate) < getTimeOfDayMillis(startDate)){
+    //If it is morning before school
+    timeUntilStart = startDate-currentDate;
+  }else{
+    //If it is after school
+    startDate.setDate(currentDate.getDate() + 1);
+    timeUntilStart = startDate-currentDate;
+  }
+  setTimeout(function(){location.reload()}, timeUntilStart);
 }
 
 function main(){
