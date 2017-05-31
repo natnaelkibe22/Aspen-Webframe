@@ -23,7 +23,7 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1.8vw; /* TODO make this look better on phones */
+  font-size: 1em;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -47,6 +47,7 @@ html {
 #schedule-body{
   padding: 0;
   display: flex;
+  overflow: scroll;
   flex-direction: row;
 }
 
@@ -77,4 +78,20 @@ html {
 
 .glyphicon.spinning {
   animation: spin 1s infinite linear;
+}
+
+/*changes font on phones */
+@media only screen and (max-width: 500px) {
+  .progress-bar{
+    font-size: 1em;
+  }
+
+  .blockContainer{
+    font-size: 1.1em;
+    padding: 8px 14px 8px 14px;
+  }
+
+  #mainInfoWrapper{
+    font-size: 1.5em;
+  }
 }
