@@ -124,7 +124,7 @@ function main(){
       if (blockSchedule.length > 0){
         var blocks = "";
         blockSchedule.forEach(function(block){
-          blocks += "<div class='blockContainer'>"+block+"</div>"
+          blocks += "<div class='blockContainer'>"+block+"</div>";
         });
         document.getElementById('schedule-body').innerHTML = blocks;
       } else {

@@ -63,7 +63,7 @@ html {
 }
 
 .blockContainer:nth-child(4)::after{
-  content: "-Lunch"
+  content: "-Lunch";
 }
 
 .fadeHidden {
