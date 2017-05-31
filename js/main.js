@@ -44,30 +44,30 @@ function clock(isHalfDay){
   }
 
 // Update the count down every 1 second
-  var timer = setInterval(function() {
-    var currentDate = new Date();
-    var now = currentDate.getTime();
-    var distance = countDownDate - now;
-    var fullDay = countDownDate - startTime;
-    var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
-    var hours, minutes, seconds;
-    if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate) || getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
-      percentThroughDay = 100;
-      hours = 0;
-      minutes = 0;
-      seconds = 0;
-      clearInterval(timer);
-      setStartTimeOut(start);
-    }else{
-      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    }
+var timer = setInterval(function() {
+  var currentDate = new Date();
+  var now = currentDate.getTime();
+  var distance = countDownDate - now;
+  var fullDay = countDownDate - startTime;
+  var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
+  var hours, minutes, seconds;
+  if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate) || getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
+    percentThroughDay = 100;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    clearInterval(timer);
+    setStartTimeOut(start);
+  }else{
+    hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  }
 
-    document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
-  }, 1000);
+  document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+  document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+  document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
+}, 1000);
 }
 
 function setStartTimeOut(startDate){
@@ -123,8 +123,12 @@ function main(){
 
       if (blockSchedule.length > 0){
         var blocks = "";
-        blockSchedule.forEach(function(block){
-          blocks += "<div class='blockContainer'>"+block+"</div>";
+        blockSchedule.forEach(function(b){
+          if (b === block) {
+            blocks += "<div class='blockContainer' style='font-weight:bolder; background-color: #fee9e9;'>"+b+"</div>";
+          } else {
+            blocks += "<div class='blockContainer'>"+b+"</div>";
+          }
         });
         document.getElementById('schedule-body').innerHTML = blocks;
       } else {

@@ -11,8 +11,8 @@ html {
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg); }
-    to { transform: scale(1) rotate(360deg); }
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1) rotate(360deg); }
 }
 
 .panel-title {
@@ -56,10 +56,9 @@ html {
   justify-content: center;
   align-content: center;
   padding: 15px;
-}
-
-.blockContainer:nth-child(even){
-  background-color: #fee9e9;
+  border-right-style: solid;
+  border-color: #a94442;
+  border-width: thin;
 }
 
 .blockContainer:nth-child(4)::after{
