@@ -33,7 +33,7 @@ html {
 }
 
 #mHeader {
-	font-family: 'Freshman', sans-serif;
+  font-family: 'Freshman', sans-serif;
 }
 
 #mHeader:hover {
@@ -57,15 +57,17 @@ html {
   justify-content: center;
   align-content: center;
   padding: 15px;
-  border-right-style: solid;
-  border-color: #a94442;
-  border-width: thin;
+  border-right: solid #f2dede thin;
 }
 
 .blockContainer:nth-child(4)::before{
   content: "\f0f5";
-  margin-right: 15px;
+  margin-right: .3em;
   font-family: FontAwesome;
+}
+
+.blockContainer:nth-child(6) {
+  border-right: none;
 }
 
 .fadeHidden {
@@ -88,8 +90,8 @@ html {
   }
 
   .blockContainer{
-    font-size: 1.1em;
-    padding: 8px 14px 8px 14px;
+    font-size: .8em;
+    padding: 8px 10px 8px 10px;
   }
 
   #mainInfoWrapper{
@@ -97,8 +99,12 @@ html {
   }
 }
 
-@media only screen and (min-width: 2500px) {
+@media only screen and (min-width: 1900px) {
+  .progress-bar{
+    font-size: .7em;
+  }
+
   #mainInfoWrapper{
-    font-size: 1.4em;
+    font-size: 2.3em;
   }
 }
