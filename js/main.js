@@ -22,7 +22,7 @@ function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   }
 }
 
-function getTimeOfDay(date){
+function getTimeOfDayMillis(date){
   return date.getHours()*(60*60*1000) + date.getMinutes()*(60* 1000) + date.getSeconds()*(1000) + date.getMilliseconds();
 }
 
@@ -45,27 +45,26 @@ function clock(isHalfDay){
 
 // Update the count down every 1 second
   var timer = setInterval(function() {
-    var today = new Date();
-    var now = today.getTime();
+    var currentDate = new Date();
+    var now = currentDate.getTime();
     var distance = countDownDate - now;
     var fullDay = countDownDate - startTime;
     var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
     var hours, minutes, seconds;
-    if (percentThroughDay > 100 || getTimeOfDay(today) > getTimeOfDay(countDownDate) || getTimeOfDay(start) > getTimeOfDay(today)){
-      const today = new Date();
+    if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate) || getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
       percentThroughDay = 100;
       hours = 0;
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
       var timeUntilStart;
-      if(getTimeOfDay(today) < getTimeOfDay(start)){
+      if(getTimeOfDayMillis(currentDate) < getTimeOfDayMillis(start)){
         //If it is morning before school
-        timeUntilStart = start-today;
+        timeUntilStart = start-currentDate;
       }else{
         //If it is after school
-        start.setDate(today.getDate() + 1);
-        timeUntilStart = start-today;
+        start.setDate(currentDate.getDate() + 1);
+        timeUntilStart = start-currentDate;
       }
       setTimeout(main, timeUntilStart);
     }else{
