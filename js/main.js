@@ -1,4 +1,5 @@
 var today = new Date();
+var dy = 0;
 
 // Async HTTP GET Function
 var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709894!
@@ -99,6 +100,7 @@ function main(){
       var block = (aspenInfo.schedule.block);
       var blockSchedule = (aspenInfo.schedule.blockSchedule);
       var day = (aspenInfo.schedule.day);
+      dy = day;
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
