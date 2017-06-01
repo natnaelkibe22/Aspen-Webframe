@@ -1,6 +1,7 @@
 var currentblock= 0;
 function getEndBlock(){
-  function normalDay(){
+  function normalDay(today){
+    var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 47))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate, 8, 45 , 0, 0
       );
@@ -48,7 +49,8 @@ function getEndBlock(){
     return deadline;
   }
 
-  function advisoryDay(){
+  function advisoryDay(today){
+    var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 45))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate, 8, 45 , 0, 0
       );
@@ -94,13 +96,12 @@ function getEndBlock(){
     return deadline;
   }
 
-  var today = new Date();
-  var deadline = new Date();
+  var currentDay = new Date();
   var endBlock = new Date();
-  if(today.getDay()===2){
-    endBlock = advisoryDay();
+  if(currentDay.getDay()===2){
+    endBlock = advisoryDay(currentDay);
   }else{
-    endBlock = normalDay();
+    endBlock = normalDay(currentDay);
   }
   return endBlock;
 }
