@@ -23,7 +23,7 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1em;
+  font-size: 1.7em;
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -101,10 +101,10 @@ html {
 
 @media only screen and (min-width: 1900px) {
   .progress-bar{
-    font-size: .7em;
+    font-size: .5em;
   }
 
   #mainInfoWrapper{
-    font-size: 2.3em;
+    font-size: 3em;
   }
 }
