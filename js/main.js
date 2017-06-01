@@ -29,7 +29,7 @@ function getTimeOfDayMillis(date){
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
   const start = new Date();
-  start.setHours(10, 45, 0, 0);
+  start.setHours(7, 45, 0, 0);
   const startTime = start.getTime();
   var countDownDate = new Date();
   var time = +countDownDate;

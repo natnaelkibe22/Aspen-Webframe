@@ -23,7 +23,7 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1em;
+  font-size: 1.5em; /*I dont like to use vw because it messes up fonts on phones*/
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -105,6 +105,6 @@ html {
   }
 
   #mainInfoWrapper{
-    font-size: 2.3em;
+    font-size: 3em;
   }
 }
