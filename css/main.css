@@ -5,6 +5,10 @@ html {
   height: 100%;
 }
 
+ul {
+  padding-left: 1em;
+}
+
 @font-face {
   font-family: 'Freshman';
   src: url('../font/freshman.ttf');
