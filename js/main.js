@@ -1,4 +1,5 @@
 var today = new Date();
+var day;
 var dy = 0;
 
 // Async HTTP GET Function
@@ -58,6 +59,7 @@ function clock(isHalfDay){
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
+      document.getElementById("blockTimer").innerHTML = "School Out";
       setStartTimeOut(start);
     }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
       percentThroughDay = 0;
@@ -65,13 +67,14 @@ function clock(isHalfDay){
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
+      document.getElementById("blockTimer").innerHTML = "School Out";
       setStartTimeOut(start);
     } else{
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      
-      updateEndBlock();  
+
+      updateEndBlock();
     }
 
     document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
@@ -108,8 +111,7 @@ function main(){
       var lastUpdated = new Date(aspenInfo.asOf*1000);
       var block = (aspenInfo.schedule.block);
       var blockSchedule = (aspenInfo.schedule.blockSchedule);
-      var day = (aspenInfo.schedule.day);
-      dy = day;
+      day = (aspenInfo.schedule.day);
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);

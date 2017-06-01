@@ -124,7 +124,7 @@ function updateEndBlock(){
 
   document.getElementById("blockTime").innerHTML = Lhours + "h " + Lminutes + "m " + Lseconds + "s ";
 
-  if (dy ===0){
+  if (day ===0){
     document.getElementById("blockTime").innerHTML = "Timer not available.";
     document.getElementById("Derrick").innerHTML = "No School.";
   }
@@ -132,6 +132,6 @@ function updateEndBlock(){
     document.getElementById("Derrick").innerHTML = "School starts in";
   }
   else{
-    document.getElementById("Derrick").innerHTML = Blocks[dy-1][currentblock] + " Ends in";
+    document.getElementById("Derrick").innerHTML = Blocks[day-1][currentblock] + " Ends in";
   }
 }
