@@ -126,12 +126,12 @@ function updateEndBlock(){
 
   if (day === 0){
     document.getElementById("blockTime").innerHTML = "School Out";
-    document.getElementById("Derrick").innerHTML = "No School.";
+    document.getElementById("endOfTimeTitle").innerHTML = "No School";
   }
   else if (currentblock === 9){
-    document.getElementById("Derrick").innerHTML = "School starts in";
+    document.getElementById("endOfTimeTitle").innerHTML = "Start of School";
   }
   else{
-    document.getElementById("Derrick").innerHTML = Blocks[day-1][currentblock] + " Ends in";
+    document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock] + " ends in";
   }
 }
