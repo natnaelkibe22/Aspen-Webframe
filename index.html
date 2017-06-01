@@ -19,11 +19,8 @@
 </head>
 
 <body onload="main();">
-  <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N86MJ8V" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
 
-  <!-- Bootstrap Header -->
   <nav class="navbar navbar-inverse">
     <div class="container">
       <div class="navbar-header">
@@ -59,7 +56,10 @@
           <h3 class="panel-title">Schedule</h3>
         </div>
         <div class="panel-body" id="schedule-body">
-          Calculating...
+          <span style="margin: 15px 15px 0px 15px">Calculating...</span>
+        </div>
+        <div id="schedule-percentBar">
+          <div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" id="dayProgress" style="width: 0%;"></div>
         </div>
       </div>
     </div>
@@ -87,21 +87,10 @@
     <div class="col-sm-4">
       <div class="panel panel-danger">
         <div class="panel-heading">
-          <h3 class="panel-title">Day Progress</h3>
+          <h3 class="panel-title">End of Day in</h3>
         </div>
         <div class="panel-body">
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" id="dayProgress" style="width: 0%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title">Countdown until End</h3>
-        </div>
-        <div class="panel-body">
-          <span id='timer'>Calculating...</span>
+          <span id='dayTimer'>Calculating...</span>
         </div>
       </div>
     </div>

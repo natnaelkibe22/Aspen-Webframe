@@ -23,7 +23,7 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1.8vw; /* TODO make this look better on phones */
+  font-size: 1.5em; /*I dont like to use vw because it messes up fonts on phones*/
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -33,7 +33,7 @@ html {
 }
 
 #mHeader {
-	font-family: 'Freshman', sans-serif;
+  font-family: 'Freshman', sans-serif;
 }
 
 #mHeader:hover {
@@ -47,8 +47,14 @@ html {
 #schedule-body{
   padding: 0;
   display: flex;
+  overflow: hidden;
   flex-direction: row;
   align-items: stretch;
+}
+
+#schedule-percentBar{
+  width: 100%;
+  height: 20px;
 }
 
 .blockContainer{
@@ -57,15 +63,18 @@ html {
   justify-content: center;
   align-content: center;
   padding: 15px;
-  border-right-style: solid;
-  border-color: #a94442;
-  border-width: thin;
+  border-right: solid #f2dede thin;
+  border-bottom: solid #f2dede thin;
 }
 
 .blockContainer:nth-child(4)::before{
   content: "\f0f5";
-  margin-right: 15px;
+  margin-right: .3em;
   font-family: FontAwesome;
+}
+
+.blockContainer:nth-child(6) {
+  border-right: none;
 }
 
 .fadeHidden {
@@ -79,4 +88,36 @@ html {
 
 .glyphicon.spinning {
   animation: spin 1s infinite linear;
+}
+
+/*changes font on phones */
+@media only screen and (max-width: 500px) {
+  .progress-bar{
+    font-size: 1em;
+  }
+
+  .blockContainer{
+    font-size: .8em;
+    padding: 8px 10px 8px 10px;
+  }
+
+  #mainInfoWrapper{
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (min-width: 1900px) {
+  .progress-bar{
+    font-size: .7em;
+    padding-top: .3em;
+  }
+
+  #mainInfoWrapper{
+    font-size: 3em;
+  }
+
+  #schedule-percentBar{
+    width: 100%;
+    height: 40px;
+  }
 }
