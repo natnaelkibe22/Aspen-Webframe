@@ -124,8 +124,8 @@ function updateEndBlock(){
 
   document.getElementById("blockTime").innerHTML = Lhours + "h " + Lminutes + "m " + Lseconds + "s ";
 
-  if (day ===0){
-    document.getElementById("blockTime").innerHTML = "Timer not available.";
+  if (day === 0){
+    document.getElementById("blockTime").innerHTML = "School Out";
     document.getElementById("Derrick").innerHTML = "No School.";
   }
   else if (currentblock === 9){
