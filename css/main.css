@@ -49,6 +49,7 @@ html {
   display: flex;
   overflow: hidden;
   flex-direction: row;
+  align-items: stretch;
 }
 
 #schedule-percentBar{
