@@ -63,7 +63,9 @@ var timer = setInterval(function() {
     hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    updateEndBlock();  
   }
+  
 
   document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
   document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
@@ -109,7 +111,7 @@ function main(){
       clock(isHalfDay);
 
       document.getElementById('dayNumber').innerHTML = day;
-      document.getElementById('blockId').innerHTML = block;
+   
       if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       if (block === 'Z') { document.getElementById('block-panel').className += " fadeHidden"; }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
