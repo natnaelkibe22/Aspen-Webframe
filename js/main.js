@@ -29,7 +29,7 @@ function getTimeOfDayMillis(date){
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
   const start = new Date();
-  start.setHours(7, 45, 0, 0);
+  start.setHours(10, 45, 0, 0);
   const startTime = start.getTime();
   var countDownDate = new Date();
   var time = +countDownDate;
@@ -71,7 +71,8 @@ function clock(isHalfDay){
       seconds = Math.floor((distance % (1000 * 60)) / 1000);
     }
 
-    document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById("blockTimer").innerHTML = minutes + "m " + seconds + "s ";
     document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
     document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
   }, 1000);
