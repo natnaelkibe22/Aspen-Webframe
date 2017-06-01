@@ -108,7 +108,7 @@ html {
 @media only screen and (min-width: 1900px) {
   .progress-bar{
     font-size: .7em;
-    padding-top:.3em;
+    padding-top: .3em;
   }
 
   #mainInfoWrapper{
