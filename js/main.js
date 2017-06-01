@@ -59,7 +59,7 @@ function clock(isHalfDay){
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
-      document.getElementById("blockTimer").innerHTML = "School Out";
+      document.getElementById("blockTime").innerHTML = "School Out";
       setStartTimeOut(start);
     }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
       percentThroughDay = 0;
@@ -67,7 +67,7 @@ function clock(isHalfDay){
       minutes = 0;
       seconds = 0;
       clearInterval(timer);
-      document.getElementById("blockTimer").innerHTML = "School Out";
+      document.getElementById("blockTime").innerHTML = "School Out";
       setStartTimeOut(start);
     } else{
       hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
