@@ -51,7 +51,7 @@ function clock(isHalfDay){
     var now = currentDate.getTime();
     var distance = countDownDate - now;
     var fullDay = countDownDate - startTime;
-    var percentThroughDay = Math.floor(((now-startTime)/fullDay)*100);
+    var percentThroughDay = (((now-startTime)/fullDay)*100);
     var hours, minutes, seconds;
     if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate)){
       percentThroughDay = 100;
@@ -79,7 +79,7 @@ function clock(isHalfDay){
 
     document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
     document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('dayProgress').innerHTML = percentThroughDay + '%';
+    document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
   }, 1000);
 }
 
