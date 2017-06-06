@@ -131,6 +131,7 @@ function updateEndBlock(){
   }
   else if (currentblock == 4 || currentblock == 5){
     document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock+1] + " starts in"; //#Aidan'sFault
+  }//sorry
   else{
     document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock] + " ends in";
   }
