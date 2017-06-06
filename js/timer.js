@@ -75,7 +75,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 49 , 0, 0);
       currentblock = 6;
     }
-    else if(((today.getHours() === 11) && (today.getMinutes() >= 52)) || ((today.getHours() === 12) && (today.getMinutes() < 47))){
+    else if(((today.getHours() === 11) && (today.getMinutes() >= 49)) || ((today.getHours() === 12) && (today.getMinutes() < 47))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 47 , 0, 0);
       currentblock = 7;
     }
@@ -83,7 +83,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 13, 17 , 0, 0);
       currentblock = 0;
     }
-    else if(((today.getHours()===13)&&(today.getMinutes()>20))||(((today.getHours()>14)) && (today.getMinutes() < 11))){
+    else if(((today.getHours()===13)&&(today.getMinutes()>=17))||(((today.getHours()>14)) && (today.getMinutes() < 11))){
       deadline = new Date(today.getFullYear(), today.getMonth(), (today.getDate()), 14, 11, 0, 0);
       currentblock = 8;
     }
@@ -129,6 +129,8 @@ function updateEndBlock(){
   else if (currentblock === 9){
     document.getElementById("endOfTimeTitle").innerHTML = "Start of School";
   }
+  else if (currentblock == 4 || currentblock == 5){
+    document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock+1] + " starts in"; //#Aidan'sFault
   else{
     document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock] + " ends in";
   }
