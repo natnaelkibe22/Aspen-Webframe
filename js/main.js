@@ -144,7 +144,7 @@ function main(){
         });
         document.getElementById('schedule-body').innerHTML = blocks;
       } else {
-        document.getElementById('schedule-panel').className += " fadeHidden";
+        document.getElementById('schedule-panel').parentElement.innerHTML = "";
       }
 
       // Once loading is complete, render page
