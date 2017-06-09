@@ -3,8 +3,7 @@ function getEndBlock(){
   function normalDay(today){
     var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 47))){
-      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate, 8, 45 , 0, 0
-      );
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 45 , 0, 0);
       currentblock = 1;
     }
     else if(((today.getHours() === 8) && (today.getMinutes() >= 47)) || ((today.getHours() ===9) && (today.getMinutes() < 47))){
@@ -52,8 +51,7 @@ function getEndBlock(){
   function advisoryDay(today){
     var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 45))){
-      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate, 8, 45 , 0, 0
-      );
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 45 , 0, 0);
       currentblock = 1;
     }
     else if(((today.getHours() === 8) && (today.getMinutes() >= 45)) || ((today.getHours() ===9) && (today.getMinutes() < 40))){
@@ -77,7 +75,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 49 , 0, 0);
       currentblock = 6;
     }
-    else if(((today.getHours() === 11) && (today.getMinutes() >= 52)) || ((today.getHours() === 12) && (today.getMinutes() < 47))){
+    else if(((today.getHours() === 11) && (today.getMinutes() >= 49)) || ((today.getHours() === 12) && (today.getMinutes() < 47))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 47 , 0, 0);
       currentblock = 7;
     }
@@ -85,7 +83,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 13, 17 , 0, 0);
       currentblock = 0;
     }
-    else if(((today.getHours()===13)&&(today.getMinutes()>20))||(((today.getHours()>14)) && (today.getMinutes() < 11))){
+    else if(((today.getHours()===13)&&(today.getMinutes()>=17))||(((today.getHours()>14)) && (today.getMinutes() < 11))){
       deadline = new Date(today.getFullYear(), today.getMonth(), (today.getDate()), 14, 11, 0, 0);
       currentblock = 8;
     }
@@ -107,7 +105,7 @@ function getEndBlock(){
 }
 
 function updateEndBlock(){
-  var t = Date.parse(getEndBlock()) - Date.parse(new Date());
+  var t = getEndBlock() - new Date();
   var Lseconds = Math.floor((t / 1000) % 60);
   var Lminutes = Math.floor((t / 1000 / 60) % 60);
   var Lhours = Math.floor((t / (1000 * 60 * 60)) % 24);
@@ -131,6 +129,9 @@ function updateEndBlock(){
   else if (currentblock === 9){
     document.getElementById("endOfTimeTitle").innerHTML = "Start of School";
   }
+  else if (currentblock == 4 || currentblock == 5){
+    document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock+1] + " starts in"; //#Aidan'sFault
+  }//sorry
   else{
     document.getElementById("endOfTimeTitle").innerHTML = Blocks[day-1][currentblock] + " ends in";
   }
