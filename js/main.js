@@ -47,41 +47,41 @@ function clock(isHalfDay){
   }
 
 // Update the count down every 1 second
-  var timer = setInterval(function() {
-    var currentDate = new Date();
-    var now = currentDate.getTime();
-    var distance = countDownDate - now;
-    var fullDay = countDownDate - startTime;
-    var percentThroughDay = (((now-startTime)/fullDay)*100);
-    var hours, minutes, seconds;
-    if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate)){
-      percentThroughDay = 100;
-      hours = 0;
-      minutes = 0;
-      seconds = 0;
-      clearInterval(timer);
-      document.getElementById("blockTime").innerHTML = "School Out";
-      setStartTimeOut(start);
-    }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
-      percentThroughDay = 0;
-      hours = 0;
-      minutes = 0;
-      seconds = 0;
-      clearInterval(timer);
-      document.getElementById("blockTime").innerHTML = "School Out";
-      setStartTimeOut(start);
-    } else{
-      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+var timer = setInterval(function() {
+  var currentDate = new Date();
+  var now = currentDate.getTime();
+  var distance = countDownDate - now;
+  var fullDay = countDownDate - startTime;
+  var percentThroughDay = (((now-startTime)/fullDay)*100);
+  var hours, minutes, seconds;
+  if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate)){
+    percentThroughDay = 100;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    clearInterval(timer);
+    document.getElementById("blockTime").innerHTML = "School Out";
+    setStartTimeOut(start);
+  }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
+    percentThroughDay = 0;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    clearInterval(timer);
+    document.getElementById("blockTime").innerHTML = "School Out";
+    setStartTimeOut(start);
+  } else{
+    hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      updateEndBlock();
-    }
+    updateEndBlock();
+  }
 
-    document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
-  }, 1000);
+  document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+  document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+  document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
+}, 1000);
 }
 
 function setStartTimeOut(startDate){
