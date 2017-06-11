@@ -1,6 +1,7 @@
 var today = new Date();
 var day;
 var dy = 0;
+var notifyEnabled;
 
 // Async HTTP GET Function
 var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709894!
@@ -79,8 +80,10 @@ var timer = setInterval(function() {
   }
 
   document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-  document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-  document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
+  if (document.getElementById('dayProgress') !== null) {
+    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+    document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
+  }
 }, 1000);
 }
 
@@ -99,6 +102,7 @@ function setStartTimeOut(startDate){
 }
 
 function main(){
+  refreshPushNotfificationStatus();
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
   lunchtag.src = "https://melroseschools.nutrislice.com/menu/api/weeks/school/melrose/menu-type/lunch/" + today.getFullYear() + "/00/00/?format=json-p&callback=getLunchInfo";
@@ -155,4 +159,45 @@ function main(){
     document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
     clock(false);
   }
+}
+
+function tweakNotificationsToggleButton() {
+  var isPushSupported = OneSignal.isPushNotificationsSupported();
+  if (isPushSupported){
+    document.getElementById('notificationsToggleButton').setAttribute('class', '');
+    document.getElementById('notificationsToggleButton').setAttribute('onclick', 'toggleWebNotifications();');
+  }
+
+  if (notifyEnabled) {
+    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:green;')
+  } else {
+    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:red;');
+  }
+}
+
+function toggleWebNotifications() {
+  try {
+    if (!notifyEnabled) { // If notifications aren't enabled
+      OneSignal.push(["registerForPushNotifications"]);
+      OneSignal.push(["setSubscription", true]);
+      ga('send', 'event', 'WebNotificationPreferenceChange', 'enabled'); // Log in Google Analytics
+    } else {
+      OneSignal.push(["setSubscription", false]); // Unreigister the user
+      ga('send', 'event', 'WebNotificationPreferenceChange', 'disabled');
+    }
+  } finally { // So it still works if GoogleAnalytics isn't found
+    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:gray;');
+    setTimeout(function(){
+      refreshPushNotfificationStatus();
+    }, 2500);
+  }
+}
+
+function refreshPushNotfificationStatus() {
+  OneSignal.push(function() {
+    OneSignal.isPushNotificationsEnabled(function(isEnabled) {
+      notifyEnabled = isEnabled;
+      tweakNotificationsToggleButton();
+    });
+  });
 }
