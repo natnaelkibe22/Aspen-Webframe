@@ -110,8 +110,8 @@ function main(){
 
   // Aspen Stuff
   var loggedOutAspen = new HttpClient();
-  try {
-    loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
+  loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
+    try {
       var aspenInfo = JSON.parse(response);
       var lastUpdated = new Date(aspenInfo.asOf*1000);
       var block = (aspenInfo.schedule.block);
@@ -120,6 +120,7 @@ function main(){
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
+      var announcements = (aspenInfo.announcements.hs);
       var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
       clock(isHalfDay);
@@ -138,6 +139,16 @@ function main(){
         });
       }
 
+      var announcementIndex = 1;
+      if (announcements.length > 0) {
+        postNewAnnouncement(announcements, 0);
+        window.setInterval(function() {
+          if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
+          postNewAnnouncement(announcements, announcementIndex);
+          announcementIndex++;
+        }, 5000); // Time each announcement is displayed
+      }
+
       if (blockSchedule.length > 0){
         var blocks = "";
         blockSchedule.forEach(function(b){
@@ -154,11 +165,22 @@ function main(){
 
       // Once loading is complete, render page
       document.getElementById('aspenLoadingSpinner').className += " fadeHidden";
-    });
-  } catch (error) {
-    document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
-    clock(false);
-  }
+    } catch (error) {
+      document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
+      clock(false);
+    }
+  });
+}
+
+function postNewAnnouncement(announcements, index) {
+  document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
+  document.getElementById('announcements-list').innerHTML = "";
+  var title = (announcements[index].title);
+  var description = (announcements[index].description);
+
+  var ann = document.createElement('li');
+  ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
+  document.getElementById('announcements-list').appendChild(ann);
 }
 
 function tweakNotificationsToggleButton() {
@@ -171,7 +193,7 @@ function tweakNotificationsToggleButton() {
   if (notifyEnabled) {
     document.getElementById('notificationsToggleButton').setAttribute('style', 'color:green;')
   } else {
-    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:red;');
+    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:#b8101f;');
   }
 }
 
@@ -179,18 +201,18 @@ function toggleWebNotifications() {
   try {
     if (!notifyEnabled) { // If notifications aren't enabled
       OneSignal.push(["registerForPushNotifications"]);
-      OneSignal.push(["setSubscription", true]);
+    OneSignal.push(["setSubscription", true]);
       ga('send', 'event', 'WebNotificationPreferenceChange', 'enabled'); // Log in Google Analytics
     } else {
       OneSignal.push(["setSubscription", false]); // Unreigister the user
       ga('send', 'event', 'WebNotificationPreferenceChange', 'disabled');
     }
   } finally { // So it still works if GoogleAnalytics isn't found
-    document.getElementById('notificationsToggleButton').setAttribute('style', 'color:gray;');
-    setTimeout(function(){
-      refreshPushNotfificationStatus();
-    }, 2500);
-  }
+  document.getElementById('notificationsToggleButton').setAttribute('style', 'color:gray;');
+  setTimeout(function(){
+    refreshPushNotfificationStatus();
+  }, 2500);
+}
 }
 
 function refreshPushNotfificationStatus() {

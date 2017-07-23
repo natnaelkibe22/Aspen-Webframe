@@ -57,6 +57,14 @@ ul {
   align-items: stretch;
 }
 
+.announcement-title {
+  font-style: italic;
+}
+
+#announcements-list {
+  font-size: smaller;
+}
+
 .blockContainer{
   flex: 1 0 auto;
   display: flex;
