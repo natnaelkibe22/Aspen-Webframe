@@ -3,7 +3,7 @@ function getEndBlock(){
   function normalDay(today){
     var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 47))){
-      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 45 , 0, 0);
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 47 , 0, 0); 
       currentblock = 1;
     }
     else if(((today.getHours() === 8) && (today.getMinutes() >= 47)) || ((today.getHours() ===9) && (today.getMinutes() < 47))){
