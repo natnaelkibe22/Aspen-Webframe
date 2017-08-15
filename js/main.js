@@ -165,6 +165,13 @@ function main(){
           postNewAnnouncement(announcements, index-1);
         }
 
+        const announcementsPanel = document.getElementById("announcements");
+        announcementsPanel.addEventListener("mouseover", function(){
+          stopAnnouncementCycle(interval)
+        });
+        announcementsPanel.addEventListener("mouseout", function(){
+          interval = startAnnouncementCycle(announcements)
+        });
         const announcementButtons = document.getElementsByClassName("announcement-button");
         announcementButtons[0].addEventListener("click", function(){
           setCurrentAnnouncement(announcementIndex-1, announcements);
@@ -175,13 +182,6 @@ function main(){
 
         postNewAnnouncement(announcements, 0);
         var interval = startAnnouncementCycle(announcements);
-        const announcementsPanel = document.getElementById("announcements");
-        announcementsPanel.addEventListener("mouseover", function(){
-          stopAnnouncementCycle(interval)
-        });
-        announcementsPanel.addEventListener("mouseout", function(){
-          interval = startAnnouncementCycle(announcements)
-        });
       }
 
       if (blockSchedule.length > 0){
