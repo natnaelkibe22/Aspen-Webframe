@@ -162,12 +162,12 @@ function main(){
       } else {
         document.getElementById('schedule-panel').parentElement.innerHTML = "";
       }
-
-      // Once loading is complete, render page
-      document.getElementById('aspenLoadingSpinner').className += " fadeHidden";
     } catch (error) {
       document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
       clock(false);
+    } finally {
+      // Once loading is complete, render page
+      document.getElementById('mHeader').innerHTML = "M";
     }
   });
 }
