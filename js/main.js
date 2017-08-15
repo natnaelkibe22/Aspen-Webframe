@@ -139,14 +139,49 @@ function main(){
         });
       }
 
-      var announcementIndex = 1;
       if (announcements.length > 0) {
+        //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
+        //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
+        var announcementIndex = 1;
+        function startAnnouncementCycle(announcements){
+          //Maybe change color or something to give an indication of what is happening
+          return setInterval(function() {
+            if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
+            postNewAnnouncement(announcements, announcementIndex);
+            announcementIndex++;
+          }, 5000); // Time each announcement is displayed
+        }
+
+        function stopAnnouncementCycle(intervalId){
+          //Maybe change color or something to give an indication of what is happening
+          clearInterval(intervalId);
+        }
+
+        function setCurrentAnnouncement(index, announcements){
+          //This uses accountIndex numbers which start at 1. Why do they start at 1? Arrays start at 0!
+          if (index > (announcements.length)) index = 1;
+          if (index < 1) index = announcements.length;
+          announcementIndex = index;
+          postNewAnnouncement(announcements, index-1);
+        }
+
+        const announcementButtons = document.getElementsByClassName("announcement-button");
+        announcementButtons[0].addEventListener("click", function(){
+          setCurrentAnnouncement(announcementIndex-1, announcements);
+        });
+        announcementButtons[1].addEventListener("click", function(){
+          setCurrentAnnouncement(announcementIndex+1, announcements);
+        });
+
         postNewAnnouncement(announcements, 0);
-        window.setInterval(function() {
-          if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
-          postNewAnnouncement(announcements, announcementIndex);
-          announcementIndex++;
-        }, 5000); // Time each announcement is displayed
+        var interval = startAnnouncementCycle(announcements);
+        const announcementsPanel = document.getElementById("announcements");
+        announcementsPanel.addEventListener("mouseover", function(){
+          stopAnnouncementCycle(interval)
+        });
+        announcementsPanel.addEventListener("mouseout", function(){
+          interval = startAnnouncementCycle(announcements)
+        });
       }
 
       if (blockSchedule.length > 0){

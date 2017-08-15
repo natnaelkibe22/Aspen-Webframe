@@ -65,6 +65,38 @@ ul {
   font-size: smaller;
 }
 
+#announcements-heading{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+#announcements-title{
+  margin: 10px 15px 10px 15px;
+}
+
+#announcements-buttons-container{
+  flex-grow: 1;
+  display: flex;
+}
+
+.announcement-button{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.announcement-button:nth-child(1){
+  border-left: 1px solid #f2c3c9;
+  border-right: 1px solid #f2c3c9;
+}
+
+.announcement-button:hover{
+  background-color: #f2d9d9;
+}
+
 .blockContainer{
   flex: 1 0 auto;
   display: flex;
