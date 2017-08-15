@@ -184,7 +184,7 @@ function main(){
         var interval = startAnnouncementCycle(announcements);
       }
 
-      if (blockSchedule.length > 0){
+      if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
         var blocks = "";
         blockSchedule.forEach(function(b){
           if (b === block) {
