@@ -18,6 +18,16 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
   };
 }
 
+function shuffleArray(array) { // https://stackoverflow.com/a/12646864/1709894
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   try {
     document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
@@ -120,7 +130,7 @@ function main(){
       var classInSession = (aspenInfo.schedule.isClassInSession);
 
       var events = (aspenInfo.calendar.events);
-      var announcements = (aspenInfo.announcements.hs);
+      var announcements = shuffleArray(aspenInfo.announcements.hs);
       var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
       clock(isHalfDay);
