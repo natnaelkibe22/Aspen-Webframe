@@ -101,6 +101,17 @@ function setStartTimeOut(startDate){
   setTimeout(function(){location.reload()}, timeUntilStart);
 }
 
+function postNewAnnouncement(announcements, index) {
+    document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
+    document.getElementById('announcements-list').innerHTML = "";
+    var title = (announcements[index].title);
+    var description = (announcements[index].description);
+
+    var ann = document.createElement('li');
+    ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
+    document.getElementById('announcements-list').appendChild(ann);
+}
+
 function main(){
   refreshPushNotfificationStatus();
   // Eww JSONP (Thanks, CORS!)
@@ -142,6 +153,7 @@ function main(){
       if (announcements.length > 0) {
         //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
         //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
+        var interval;
         var announcementIndex = 1;
         function startAnnouncementCycle(announcements){
           //Maybe change color or something to give an indication of what is happening
@@ -159,18 +171,22 @@ function main(){
 
         function setCurrentAnnouncement(index, announcements){
           //This uses accountIndex numbers which start at 1. Why do they start at 1? Arrays start at 0!
-          if (index > (announcements.length)) index = 1;
-          if (index < 1) index = announcements.length;
+          if (index > (announcements.length)){
+            index = 1
+          }
+          if (index < 1){
+            index = announcements.length;
+          }
           announcementIndex = index;
           postNewAnnouncement(announcements, index-1);
         }
 
         const announcementsPanel = document.getElementById("announcements");
         announcementsPanel.addEventListener("mouseover", function(){
-          stopAnnouncementCycle(interval)
+          stopAnnouncementCycle(interval);
         });
         announcementsPanel.addEventListener("mouseout", function(){
-          interval = startAnnouncementCycle(announcements)
+          interval = startAnnouncementCycle(announcements);
         });
         const announcementButtons = document.getElementsByClassName("announcement-button");
         announcementButtons[0].addEventListener("click", function(){
@@ -181,7 +197,7 @@ function main(){
         });
 
         postNewAnnouncement(announcements, 0);
-        var interval = startAnnouncementCycle(announcements);
+        interval = startAnnouncementCycle(announcements);
       }
 
       if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
@@ -205,17 +221,6 @@ function main(){
       clock(false);
     }
   });
-}
-
-function postNewAnnouncement(announcements, index) {
-  document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
-  document.getElementById('announcements-list').innerHTML = "";
-  var title = (announcements[index].title);
-  var description = (announcements[index].description);
-
-  var ann = document.createElement('li');
-  ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
-  document.getElementById('announcements-list').appendChild(ann);
 }
 
 function tweakNotificationsToggleButton() {
