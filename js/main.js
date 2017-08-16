@@ -172,7 +172,7 @@ function main(){
         function setCurrentAnnouncement(index, announcements){
           //This uses accountIndex numbers which start at 1. Why do they start at 1? Arrays start at 0!
           if (index > (announcements.length)){
-            index = 1
+            index = 1;
           }
           if (index < 1){
             index = announcements.length;
