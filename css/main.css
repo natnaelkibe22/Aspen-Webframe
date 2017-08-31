@@ -88,7 +88,8 @@ ul {
   align-items: center;
 }
 
-.announcement-button:nth-child(1){
+.announcement-button:nth-child(1),
+.announcement-button:nth-child(2){
   border-left: 1px solid #f2c3c9;
   border-right: 1px solid #f2c3c9;
 }

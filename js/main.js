@@ -156,17 +156,21 @@ function main(){
         var interval;
         var announcementIndex = 1;
         function startAnnouncementCycle(announcements){
+          document.getElementById('pause-button').className = 'fa fa-pause';
           //Maybe change color or something to give an indication of what is happening
-          return setInterval(function() {
+          const intervalId =  setInterval(function() {
             if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
             postNewAnnouncement(announcements, announcementIndex);
             announcementIndex++;
           }, 5000); // Time each announcement is displayed
+          interval = intervalId;
+          return intervalId;
         }
 
         function stopAnnouncementCycle(intervalId){
           //Maybe change color or something to give an indication of what is happening
           clearInterval(intervalId);
+          document.getElementById('pause-button').className = 'fa fa-play';
         }
 
         function setCurrentAnnouncement(index, announcements){
@@ -181,11 +185,24 @@ function main(){
           postNewAnnouncement(announcements, index-1);
         }
 
-        const announcementsPanel = document.getElementById("announcements");
+        const announcementsPanel = document.getElementById("announcements-body");
         announcementsPanel.addEventListener("mouseover", function(){
           stopAnnouncementCycle(interval);
         });
         announcementsPanel.addEventListener("mouseout", function(){
+          interval = startAnnouncementCycle(announcements);
+        });
+        const announcementsButtons = document.getElementsByClassName("arrow-icon");
+        announcementsButtons[0].addEventListener("mouseover", function(){
+          stopAnnouncementCycle(interval);
+        });
+        announcementsButtons[0].addEventListener("mouseout", function(){
+          interval = startAnnouncementCycle(announcements);
+        });
+        announcementsButtons[1].addEventListener("mouseover", function(){
+          stopAnnouncementCycle(interval);
+        });
+        announcementsButtons[1].addEventListener("mouseout", function(){
           interval = startAnnouncementCycle(announcements);
         });
         const announcementButtons = document.getElementsByClassName("announcement-button");
@@ -193,6 +210,13 @@ function main(){
           setCurrentAnnouncement(announcementIndex-1, announcements);
         });
         announcementButtons[1].addEventListener("click", function(){
+          if(document.getElementById('pause-button').className == 'fa fa-pause'){
+            interval = stopAnnouncementCycle(interval);
+          }else{
+            interval = startAnnouncementCycle(announcements);
+          }
+        });
+        announcementButtons[2].addEventListener("click", function(){
           setCurrentAnnouncement(announcementIndex+1, announcements);
         });
 
