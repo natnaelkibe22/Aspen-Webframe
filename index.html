@@ -4,19 +4,46 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MHS Schedule</title>
 
+  <meta name="theme-color" content="#9e0b0f">
+  <meta name="description" content="Melrose High School Dashboard -- Status page of the School Day at MHS">
+
+  <title>MHS Schedule</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 
+  <!-- JavaScript -->
+  <script type="text/javascript" src="js/timer.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N86MJ8V');</script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://use.fontawesome.com/a26e812ff2.js"></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
+      appId: "c10d9ee4-0f1e-42d0-af62-c97725552ccd",
+      autoRegister: false,
+      allowLocalhostAsSecureOrigin: true
+    }]);
+    OneSignal.push(function() {
+      OneSignal.setDefaultNotificationUrl("https://aspen.studenttech.tk/?utm_source=webpush");
+      OneSignal.on('notificationPermissionChange', function(permissionChange) {
+        var currentPermission = permissionChange.to;
+        ga('send', 'event', 'WebNotificationPermissionChange', currentPermission);
+      });
+    });
+  </script>
 </head>
 
 <body onload="main();">
-  <!-- Bootstrap Header -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N86MJ8V" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
   <nav class="navbar navbar-inverse">
     <div class="container">
       <div class="navbar-header">
@@ -26,11 +53,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" id="mHeader" href="#">M</a>
+        <a class="navbar-brand" id="mHeader" href="#"><span class="glyphicon glyphicon-refresh spinning"></span></a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Melrose High School</a></li>
+          <li id="notificationsToggleButton" class="disabled"><a href="#" style="color:inherit;">Toggle Notifications</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -42,7 +70,23 @@
     </div>
 
     <div class="page-header">
-      <h1>Today's Information <small id="lastUpdated" style="font-size: small;"></small> <span class="glyphicon glyphicon-refresh spinning" id="aspenLoadingSpinner"></span></h1>
+      <h1>Today's Information <small id="lastUpdated" style="font-size: small;"></small> </h1>
+    </div>
+
+
+    <div class="megapanel">
+      <div class="panel panel-danger" id="schedule-panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Schedule</h3>
+        </div>
+        <div class="panel-body" style="padding: 0;">
+          <div id="schedule-body">
+            <span style="margin: 15px 15px 0px 15px">Calculating...</span>
+          </div>
+          <div class="progress-bar progress-bar-striped progress-bar-danger" role="progressbar" id="dayProgress" style="width: 0%;"></div>
+        </div>
+
+      </div>
     </div>
 
     <div class="col-sm-4">
@@ -54,13 +98,24 @@
           Day <span id='dayNumber'>0</span>
         </div>
       </div>
+    </div>
 
-      <div class="panel panel-danger" id="block-panel">
+    <div class="col-sm-4">
+      <div class="panel panel-danger">
         <div class="panel-heading">
-          <h3 class="panel-title">Block</h3>
+          <h3 class="panel-title">End of Day</h3>
         </div>
         <div class="panel-body">
-          <span id='blockId'>Z</span> Block
+          <span id='dayTimer'>Calculating...</span>
+        </div>
+      </div>
+
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title" id="endOfTimeTitle">End of Block</h3>
+        </div>
+        <div class="panel-body">
+          <span id='blockTime'>Calculating...</span>
         </div>
       </div>
     </div>
@@ -68,51 +123,35 @@
     <div class="col-sm-4">
       <div class="panel panel-danger">
         <div class="panel-heading">
-          <h3 class="panel-title">Day Progress</h3>
+          <h3 class="panel-title">Lunch Special</h3>
         </div>
-        <div class="panel-body">
-          <div class="progress">
-            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" id="dayProgress" style="width: 0%;"></div>
-          </div>
-        </div>
+        <div class="panel-body" id="lunch-body">Unknown Lunch</div>
       </div>
 
       <div class="panel panel-danger">
         <div class="panel-heading">
-          <h3 class="panel-title">Countown until End</h3>
+          <h3 class="panel-title">Events</h3>
         </div>
         <div class="panel-body">
-          <span id='timer'>Calculating...</span>
+          <ul id="events-list">
+            <li>No Events</li>
+          </ul>
         </div>
       </div>
-
-  <!--<div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title">Schedule</h3>
     </div>
-    <div class="panel-body" id="schedule-body"></div>
-  </div>-->
-</div>
 
-<div class="col-sm-4">
-  <div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title">Lunch Special</h3>
-    </div>
-    <div class="panel-body" id="lunch-body">Unknown Lunch</div>
-  </div>
-
-  <div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title">Events</h3>
-    </div>
-    <div class="panel-body">
-      <ul id="events-list">
-        <li>No Events</li>
-      </ul>
+    <div class="col-sm-12">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title">Announcements <small id="announcements-index"></small></h3>
+        </div>
+        <div class="panel-body" id="announcements-body">
+          <ul id="announcements-list">
+            <li>Nothing to report, sir!</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </body>
 </html>

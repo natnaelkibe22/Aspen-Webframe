@@ -5,14 +5,19 @@ html {
   height: 100%;
 }
 
+ul {
+  padding-left: 1em;
+  margin-bottom: 0px;
+}
+
 @font-face {
   font-family: 'Freshman';
   src: url('../font/freshman.ttf');
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg); }
-    to { transform: scale(1) rotate(360deg); }
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1) rotate(360deg); }
 }
 
 .panel-title {
@@ -23,12 +28,17 @@ html {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1.8vw; /* TODO make this look better on phones */
+  font-size: 1.5em; /*I dont like to use vw because it messes up fonts on phones*/
   font-family: 'Ubuntu', sans-serif;
 }
 
+.megapanel {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 #mHeader {
-	font-family: 'Freshman', sans-serif;
+  font-family: 'Freshman', sans-serif;
 }
 
 #mHeader:hover {
@@ -37,6 +47,42 @@ html {
 
 #fetchIssue {
   display: none;
+}
+
+#schedule-body{
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.announcement-title {
+  font-style: italic;
+}
+
+#announcements-list {
+  font-size: smaller;
+}
+
+.blockContainer{
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 15px;
+  border-right: solid #f2dede thin;
+  border-bottom: solid #f2dede thin;
+}
+
+.blockContainer:nth-child(4)::before{
+  content: "\f0f5";
+  margin-right: .3em;
+  font-family: FontAwesome;
+}
+
+.blockContainer:nth-child(6) {
+  border-right: none;
 }
 
 .fadeHidden {
@@ -50,4 +96,32 @@ html {
 
 .glyphicon.spinning {
   animation: spin 1s infinite linear;
+}
+
+/*changes font on phones */
+@media only screen and (max-width: 500px) {
+  .progress-bar{
+    font-size: 1em;
+  }
+
+  .blockContainer{
+    font-size: .8em;
+    padding: 8px 10px 8px 10px;
+  }
+
+  #mainInfoWrapper{
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (min-width: 1900px) {
+  .progress-bar{
+    font-size: .7em;
+    padding-top: .3em;
+    padding-bottom: .3em;
+  }
+
+  #mainInfoWrapper{
+    font-size: 3em;
+  }
 }

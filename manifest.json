@@ -1,0 +1,9 @@
+{
+  "short_name": "MHS Schedule",
+  "name": "MHS Schedule Status",
+  "display": "standalone",
+  "background_color": "#9e0b0f",
+  "theme_color": "#9e0b0f",
+  "start_url": "/?utm_source=homescreen",
+  "gcm_sender_id": "482941778795"
+}
