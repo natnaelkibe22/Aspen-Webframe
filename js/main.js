@@ -16,6 +16,16 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
     anHttpRequest.open( "GET", aUrl, true );
     anHttpRequest.send( null );
   };
+};
+
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
@@ -114,6 +124,10 @@ function postNewAnnouncement(announcements, index) {
 
 function main(){
   refreshPushNotfificationStatus();
+  if(getParameterByName('billboard') === 'true'){
+    console.log("Going into billboard mode");
+    document.getElementById('header').remove();
+  }
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
   lunchtag.src = "https://melroseschools.nutrislice.com/menu/api/weeks/school/melrose/menu-type/lunch/" + today.getFullYear() + "/00/00/?format=json-p&callback=getLunchInfo";
