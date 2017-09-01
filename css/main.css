@@ -69,6 +69,7 @@ ul {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: wrap;
   padding: 0;
 }
 
@@ -79,6 +80,7 @@ ul {
 #announcements-buttons-container{
   flex-grow: 1;
   display: flex;
+  border-left: 1px solid #f2c3c9;
 }
 
 .announcement-button{
@@ -90,7 +92,6 @@ ul {
 
 .announcement-button:nth-child(1),
 .announcement-button:nth-child(2){
-  border-left: 1px solid #f2c3c9;
   border-right: 1px solid #f2c3c9;
 }
 
@@ -135,6 +136,15 @@ ul {
 @media only screen and (max-width: 500px) {
   .progress-bar{
     font-size: 1em;
+  }
+
+  #announcements-buttons-container{
+    border-top: 1px solid #f2c3c9;
+    border-left: 0;
+  }
+
+  .announcement-button{
+    padding: 10px 0 10px 0;
   }
 
   .blockContainer{
