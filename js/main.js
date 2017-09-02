@@ -18,14 +18,15 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
   };
 };
 
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+function checkBillboard(){
+  var url = window.location.href;
+  var regex = new RegExp("[?&]billboard(=([^&#]*)|&|#|$)"),
     results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
+  if(!results){
+    return false;
+  }else{
+    return true;
+  }
 }
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
@@ -127,9 +128,9 @@ function postNewAnnouncement(announcements, index) {
 
 function main(){
   refreshPushNotfificationStatus();
-  if(getParameterByName('billboard') === 'true'){
-    console.log("Going into billboard mode");
+  if(checkBillboard()){
     document.getElementById('header').remove();
+    document.getElementById('announcements-buttons-container').remove();
   }
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
@@ -174,7 +175,9 @@ function main(){
         var announcementIndex = 1;
         function startAnnouncementCycle(announcements){
           intervalProgress = 0;
-          document.getElementById('pause-button').className = 'fa fa-pause';
+          if(checkBillboard() == false) {
+            document.getElementById('pause-button').className = 'fa fa-pause';
+          }
           //Maybe change color or something to give an indication of what is happening
 
           intervalProgressBar = setInterval(function (){
@@ -195,7 +198,9 @@ function main(){
           //Maybe change color or something to give an indication of what is happening
           clearInterval(intervalId);
           clearInterval(intervalProgressBar);
-          document.getElementById('pause-button').className = 'fa fa-play';
+          if(checkBillboard() == false) {
+            document.getElementById('pause-button').className = 'fa fa-play';
+          }
           document.getElementById('announcements-progress-bar').setAttribute('style', 'width: 0%;');
         }
 
@@ -211,40 +216,52 @@ function main(){
           postNewAnnouncement(announcements, index-1);
         }
 
-        const announcementsPanel = document.getElementById("announcements-body");
-        announcementsPanel.addEventListener("mouseover", function(){
-          stopAnnouncementCycle(interval);
-        });
-        announcementsPanel.addEventListener("mouseout", function(){
-          interval = startAnnouncementCycle(announcements);
-        });
-        const announcementsButtons = document.getElementsByClassName("arrow-icon");
-        announcementsButtons[0].addEventListener("mouseover", function(){
-          stopAnnouncementCycle(interval);
-        });
-        announcementsButtons[0].addEventListener("mouseout", function(){
-          interval = startAnnouncementCycle(announcements);
-        });
-        announcementsButtons[1].addEventListener("mouseover", function(){
-          stopAnnouncementCycle(interval);
-        });
-        announcementsButtons[1].addEventListener("mouseout", function(){
-          interval = startAnnouncementCycle(announcements);
-        });
-        const announcementButtons = document.getElementsByClassName("announcement-button");
-        announcementButtons[0].addEventListener("click", function(){
-          setCurrentAnnouncement(announcementIndex-1, announcements);
-        });
-        announcementButtons[1].addEventListener("click", function(){
-          if(document.getElementById('pause-button').className == 'fa fa-pause'){
-            interval = stopAnnouncementCycle(interval);
-          }else{
+        function attachButtonEvents(){
+          const announcementsPanel = document.getElementById("announcements-body");
+          announcementsPanel.addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsPanel.addEventListener("mouseout", function(){
             interval = startAnnouncementCycle(announcements);
-          }
-        });
-        announcementButtons[2].addEventListener("click", function(){
-          setCurrentAnnouncement(announcementIndex+1, announcements);
-        });
+          });
+          const progressBar = document.getElementById('announcements-progress');
+          progressBar.addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          progressBar.addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          const announcementsButtons = document.getElementsByClassName("arrow-icon");
+          announcementsButtons[0].addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsButtons[0].addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          announcementsButtons[1].addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsButtons[1].addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          const announcementButtons = document.getElementsByClassName("announcement-button");
+          announcementButtons[0].addEventListener("click", function(){
+            setCurrentAnnouncement(announcementIndex-1, announcements);
+          });
+          announcementButtons[1].addEventListener("click", function(){
+            if(document.getElementById('pause-button').className === 'fa fa-pause'){
+              interval = stopAnnouncementCycle(interval);
+            }else{
+              interval = startAnnouncementCycle(announcements);
+            }
+          });
+          announcementButtons[2].addEventListener("click", function(){
+            setCurrentAnnouncement(announcementIndex+1, announcements);
+          });
+        }
+        if(checkBillboard() == false){
+          attachButtonEvents();
+        }
 
         postNewAnnouncement(announcements, 0);
         interval = startAnnouncementCycle(announcements);
