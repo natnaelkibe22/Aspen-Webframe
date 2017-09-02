@@ -160,9 +160,9 @@ function main(){
 
       if (events.length > 0){
         document.getElementById('events-list').innerHTML = "";
-        events.forEach(function(eventTitle){
+        events.forEach(function(eventObj){
           var event = document.createElement('li');
-          event.innerHTML = eventTitle;
+          event.innerHTML = eventObj.title;
           document.getElementById('events-list').appendChild(event);
         });
       }
@@ -171,7 +171,7 @@ function main(){
         //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
         //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
         var interval;
-        var announcementIndex = 0;
+        var announcementIndex = 1;
         function startAnnouncementCycle(announcements){
           intervalProgress = 0;
           document.getElementById('pause-button').className = 'fa fa-pause';
