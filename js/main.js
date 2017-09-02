@@ -111,7 +111,10 @@ function setStartTimeOut(startDate){
   setTimeout(function(){location.reload()}, timeUntilStart);
 }
 
+var intervalProgressBar;
+var intervalProgress = 0;
 function postNewAnnouncement(announcements, index) {
+    intervalProgress = 0;
     document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
     document.getElementById('announcements-list').innerHTML = "";
     var title = (announcements[index].title);
@@ -168,10 +171,17 @@ function main(){
         //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
         //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
         var interval;
-        var announcementIndex = 1;
+        var announcementIndex = 0;
         function startAnnouncementCycle(announcements){
+          intervalProgress = 0;
           document.getElementById('pause-button').className = 'fa fa-pause';
           //Maybe change color or something to give an indication of what is happening
+
+          intervalProgressBar = setInterval(function (){
+            intervalProgress += 0.2;
+            document.getElementById('announcements-progress-bar').setAttribute('style', 'width: ' + intervalProgress + '%;');
+          }, 10);
+
           const intervalId =  setInterval(function() {
             if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
             postNewAnnouncement(announcements, announcementIndex);
@@ -184,7 +194,9 @@ function main(){
         function stopAnnouncementCycle(intervalId){
           //Maybe change color or something to give an indication of what is happening
           clearInterval(intervalId);
+          clearInterval(intervalProgressBar);
           document.getElementById('pause-button').className = 'fa fa-play';
+          document.getElementById('announcements-progress-bar').setAttribute('style', 'width: 0%;');
         }
 
         function setCurrentAnnouncement(index, announcements){
