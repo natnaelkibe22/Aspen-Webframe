@@ -175,7 +175,7 @@ function main(){
         var announcementIndex = 1;
         function startAnnouncementCycle(announcements){
           intervalProgress = 0;
-          if(checkBillboard() == false) {
+          if(checkBillboard() === false) {
             document.getElementById('pause-button').className = 'fa fa-pause';
           }
           //Maybe change color or something to give an indication of what is happening
@@ -198,7 +198,7 @@ function main(){
           //Maybe change color or something to give an indication of what is happening
           clearInterval(intervalId);
           clearInterval(intervalProgressBar);
-          if(checkBillboard() == false) {
+          if(checkBillboard() === false) {
             document.getElementById('pause-button').className = 'fa fa-play';
           }
           document.getElementById('announcements-progress-bar').setAttribute('style', 'width: 0%;');
@@ -259,7 +259,7 @@ function main(){
             setCurrentAnnouncement(announcementIndex+1, announcements);
           });
         }
-        if(checkBillboard() == false){
+        if(checkBillboard() === false){
           attachButtonEvents();
         }
 
