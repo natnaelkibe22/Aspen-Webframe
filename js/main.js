@@ -2,6 +2,7 @@ var today = new Date();
 var day;
 var dy = 0;
 var notifyEnabled;
+var announcementScrollTime = 8000;
 
 // Async HTTP GET Function
 var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709894!
@@ -180,8 +181,9 @@ function main(){
           }
           //Maybe change color or something to give an indication of what is happening
 
+          const progressIteration = 1000/announcementScrollTime;
           intervalProgressBar = setInterval(function (){
-            intervalProgress += 0.2;
+            intervalProgress += progressIteration;
             document.getElementById('announcements-progress-bar').setAttribute('style', 'width: ' + intervalProgress + '%;');
           }, 10);
 
@@ -189,7 +191,7 @@ function main(){
             if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
             postNewAnnouncement(announcements, announcementIndex);
             announcementIndex++;
-          }, 5000); // Time each announcement is displayed
+          }, announcementScrollTime); // Time each announcement is displayed
           interval = intervalId;
           return intervalId;
         }
