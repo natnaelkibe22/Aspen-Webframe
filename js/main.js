@@ -30,6 +30,17 @@ function checkBillboard(){
   }
 }
 
+function checkAutoReload(){
+  var url = window.location.href;
+  var regex = new RegExp("[?&]autoReload(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if(!results){
+    return false;
+  }else{
+    return true;
+  }
+}
+
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   try {
     document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
@@ -128,11 +139,17 @@ function postNewAnnouncement(announcements, index) {
 }
 
 function main(){
-  refreshPushNotfificationStatus();
   if(checkBillboard()){
     document.getElementById('header').remove();
     document.getElementById('announcements-buttons-container').remove();
   }
+  if(checkAutoReload()){
+    //TODO: Make sure that everything is automatically reloaded so this is not necessary
+    setTimeout(function(){
+      location.reload()
+    }, 300000)
+  }
+  refreshPushNotfificationStatus();
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
   lunchtag.src = "https://melroseschools.nutrislice.com/menu/api/weeks/school/melrose/menu-type/lunch/" + today.getFullYear() + "/00/00/?format=json-p&callback=getLunchInfo";
