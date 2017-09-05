@@ -65,6 +65,54 @@ ul {
   font-size: smaller;
 }
 
+#announcements-heading{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+#announcements-title{
+  margin: 10px 15px 10px 15px;
+}
+
+#announcements-buttons-container{
+  flex-grow: 1;
+  display: flex;
+  border-left: 1px solid #f2c3c9;
+}
+
+.announcement-button{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#announcements-progress{
+  height: .1em;
+  width: 100%;
+}
+
+#announcements-progress-bar{
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+  background-color: #f2c3c9;
+}
+
+.announcement-button:nth-child(1),
+.announcement-button:nth-child(2){
+  border-right: 1px solid #f2c3c9;
+}
+
+.announcement-button:hover{
+  background-color: #f2d9d9;
+}
+
 .blockContainer{
   flex: 1 0 auto;
   display: flex;
@@ -100,8 +148,17 @@ ul {
 
 /*changes font on phones */
 @media only screen and (max-width: 500px) {
-  .progress-bar{
+  #schedule-progress-bar{
     font-size: 1em;
+  }
+
+  #announcements-buttons-container{
+    border-top: 1px solid #f2c3c9;
+    border-left: 0;
+  }
+
+  .announcement-button{
+    padding: 10px 0 10px 0;
   }
 
   .blockContainer{
@@ -115,7 +172,7 @@ ul {
 }
 
 @media only screen and (min-width: 1900px) {
-  .progress-bar{
+  #schedule-progress-bar{
     font-size: .7em;
     padding-top: .3em;
     padding-bottom: .3em;

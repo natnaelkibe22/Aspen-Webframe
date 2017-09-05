@@ -2,3 +2,6 @@
 *.iml
 out
 gen
+
+#Im using a package I build to do custom hosting and I need to ignore it
+html-hoster
