@@ -156,7 +156,7 @@ function main(){
           if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
           postNewAnnouncement(announcements, announcementIndex);
           announcementIndex++;
-        }, 5000); // Time each announcement is displayed
+        }, 10000); // Time each announcement is displayed
       }
 
       if (blockSchedule.length > 0){
