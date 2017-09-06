@@ -113,9 +113,9 @@ var timer = setInterval(function() {
   }
 
   document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-  if (document.getElementById('dayProgress') !== null) {
-    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
+  if (document.getElementById('schedule-progress-bar') !== null) {
+    document.getElementById('schedule-progress-bar').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+    document.getElementById('schedule-progress-bar').innerHTML = Math.floor(percentThroughDay) + '%';
   }
 }, 1000);
 }
@@ -184,7 +184,7 @@ function main(){
 
       document.getElementById('dayNumber').innerHTML = day;
 
-      if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
+      if (classInSession) { document.getElementById('schedule-progress-bar').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
       if (events.length > 0){
