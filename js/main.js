@@ -2,6 +2,7 @@ var today = new Date();
 var day;
 var dy = 0;
 var notifyEnabled;
+var announcementScrollTime = 8000;
 
 // Async HTTP GET Function
 var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709894!
@@ -16,6 +17,28 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
     anHttpRequest.open( "GET", aUrl, true );
     anHttpRequest.send( null );
   };
+};
+
+function checkBillboard(){
+  var url = window.location.href;
+  var regex = new RegExp("[?&]billboard(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if(!results){
+    return false;
+  }else{
+    return true;
+  }
+}
+
+function checkAutoReload(){
+  var url = window.location.href;
+  var regex = new RegExp("[?&]autoReload(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if(!results){
+    return false;
+  }else{
+    return true;
+  }
 }
 
 function shuffleArray(array) { // https://stackoverflow.com/a/12646864/1709894
@@ -90,9 +113,9 @@ var timer = setInterval(function() {
   }
 
   document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-  if (document.getElementById('dayProgress') !== null) {
-    document.getElementById('dayProgress').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('dayProgress').innerHTML = Math.floor(percentThroughDay) + '%';
+  if (document.getElementById('schedule-progress-bar') !== null) {
+    document.getElementById('schedule-progress-bar').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+    document.getElementById('schedule-progress-bar').innerHTML = Math.floor(percentThroughDay) + '%';
   }
 }, 1000);
 }
@@ -111,7 +134,31 @@ function setStartTimeOut(startDate){
   setTimeout(function(){location.reload()}, timeUntilStart);
 }
 
+var intervalProgressBar;
+var intervalProgress = 0;
+function postNewAnnouncement(announcements, index) {
+    intervalProgress = 0;
+    document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
+    document.getElementById('announcements-list').innerHTML = "";
+    var title = (announcements[index].title);
+    var description = (announcements[index].description);
+
+    var ann = document.createElement('li');
+    ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
+    document.getElementById('announcements-list').appendChild(ann);
+}
+
 function main(){
+  if(checkBillboard()){
+    document.getElementById('header').remove();
+    document.getElementById('announcements-buttons-container').remove();
+  }
+  if(checkAutoReload()){
+    //TODO: Make sure that everything is automatically reloaded so this is not necessary
+    setTimeout(function(){
+      location.reload()
+    }, 300000)
+  }
   refreshPushNotfificationStatus();
   // Eww JSONP (Thanks, CORS!)
   var lunchtag = document.createElement("script");
@@ -137,29 +184,119 @@ function main(){
 
       document.getElementById('dayNumber').innerHTML = day;
 
-      if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
+      if (classInSession) { document.getElementById('schedule-progress-bar').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
       if (events.length > 0){
         document.getElementById('events-list').innerHTML = "";
-        events.forEach(function(eventTitle){
+        events.forEach(function(eventObj){
           var event = document.createElement('li');
-          event.innerHTML = eventTitle;
+          event.innerHTML = eventObj.title;
           document.getElementById('events-list').appendChild(event);
         });
       }
 
-      var announcementIndex = 1;
       if (announcements.length > 0) {
+        //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
+        //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
+        var interval;
+        var announcementIndex = 1;
+        function startAnnouncementCycle(announcements){
+          intervalProgress = 0;
+          if(checkBillboard() === false) {
+            document.getElementById('pause-button').className = 'fa fa-pause';
+          }
+          //Maybe change color or something to give an indication of what is happening
+
+          const progressIteration = 1000/announcementScrollTime;
+          intervalProgressBar = setInterval(function (){
+            intervalProgress += progressIteration;
+            document.getElementById('announcements-progress-bar').setAttribute('style', 'width: ' + intervalProgress + '%;');
+          }, 10);
+
+          const intervalId =  setInterval(function() {
+            if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
+            postNewAnnouncement(announcements, announcementIndex);
+            announcementIndex++;
+          }, announcementScrollTime); // Time each announcement is displayed
+          interval = intervalId;
+          return intervalId;
+        }
+
+        function stopAnnouncementCycle(intervalId){
+          //Maybe change color or something to give an indication of what is happening
+          clearInterval(intervalId);
+          clearInterval(intervalProgressBar);
+          if(checkBillboard() === false) {
+            document.getElementById('pause-button').className = 'fa fa-play';
+          }
+          document.getElementById('announcements-progress-bar').setAttribute('style', 'width: 0%;');
+        }
+
+        function setCurrentAnnouncement(index, announcements){
+          //This uses accountIndex numbers which start at 1. Why do they start at 1? Arrays start at 0!
+          if (index > (announcements.length)){
+            index = 1;
+          }
+          if (index < 1){
+            index = announcements.length;
+          }
+          announcementIndex = index;
+          postNewAnnouncement(announcements, index-1);
+        }
+
+        function attachButtonEvents(){
+          const announcementsPanel = document.getElementById("announcements-body");
+          announcementsPanel.addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsPanel.addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          const progressBar = document.getElementById('announcements-progress');
+          progressBar.addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          progressBar.addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          const announcementsButtons = document.getElementsByClassName("arrow-icon");
+          announcementsButtons[0].addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsButtons[0].addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          announcementsButtons[1].addEventListener("mouseover", function(){
+            stopAnnouncementCycle(interval);
+          });
+          announcementsButtons[1].addEventListener("mouseout", function(){
+            interval = startAnnouncementCycle(announcements);
+          });
+          const announcementButtons = document.getElementsByClassName("announcement-button");
+          announcementButtons[0].addEventListener("click", function(){
+            setCurrentAnnouncement(announcementIndex-1, announcements);
+          });
+          announcementButtons[1].addEventListener("click", function(){
+            if(document.getElementById('pause-button').className === 'fa fa-pause'){
+              interval = stopAnnouncementCycle(interval);
+            }else{
+              interval = startAnnouncementCycle(announcements);
+            }
+          });
+          announcementButtons[2].addEventListener("click", function(){
+            setCurrentAnnouncement(announcementIndex+1, announcements);
+          });
+        }
+        if(checkBillboard() === false){
+          attachButtonEvents();
+        }
+
         postNewAnnouncement(announcements, 0);
-        window.setInterval(function() {
-          if (announcementIndex > (announcements.length-1)) announcementIndex = 0;
-          postNewAnnouncement(announcements, announcementIndex);
-          announcementIndex++;
-        }, 5000); // Time each announcement is displayed
+        interval = startAnnouncementCycle(announcements);
       }
 
-      if (blockSchedule.length > 0){
+      if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
         var blocks = "";
         blockSchedule.forEach(function(b){
           if (b === block) {
@@ -180,17 +317,6 @@ function main(){
       document.getElementById('mHeader').innerHTML = "M";
     }
   });
-}
-
-function postNewAnnouncement(announcements, index) {
-  document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
-  document.getElementById('announcements-list').innerHTML = "";
-  var title = (announcements[index].title);
-  var description = (announcements[index].description);
-
-  var ann = document.createElement('li');
-  ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
-  document.getElementById('announcements-list').appendChild(ann);
 }
 
 function tweakNotificationsToggleButton() {
