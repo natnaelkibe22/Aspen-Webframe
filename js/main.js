@@ -53,7 +53,7 @@ function shuffleArray(array) { // https://stackoverflow.com/a/12646864/1709894
 
 function getLunchInfo(lunchMenu) { // Bypassing CORS using JSONP
   try {
-    document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay() - 1].menu_items[1].food.name);
+    document.getElementById('lunch-body').innerHTML = (lunchMenu.days[today.getDay()].menu_items[1].food.name);
   } catch (error){
     document.getElementById('lunch-body').innerHTML = "No Lunch Served";
   }
