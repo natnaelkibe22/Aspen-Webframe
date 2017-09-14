@@ -48,7 +48,7 @@ function getEndBlock(){
     return deadline;
   }
 
-  function advisoryDay(today){
+  function tuesdayAdvisory(today){
     var deadline = new Date();
     if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 45))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 45 , 0, 0);
@@ -93,14 +93,62 @@ function getEndBlock(){
     }
     return deadline;
   }
+  
+  function thursdayAdvisory(today){
+        var deadline = new Date();
+    if(((today.getHours() === 7) && (today.getMinutes() >= 45)) || ((today.getHours() === 8) && (today.getMinutes() < 42))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 42 , 0, 0);
+      currentblock = 1;
+    }
+    else if(((today.getHours() === 8) && (today.getMinutes() >= 42)) || ((today.getHours() === 9) && (today.getMinutes() < 37))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 37 , 0, 0);
+      currentblock = 2;
+    }
+    else if(((today.getHours() === 9) && (today.getMinutes() >= 37)) || ((today.getHours() === 10) && (today.getMinutes() < 10))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 10, 0, 0);
+      currentblock = 0;
+    }
+    else if(((today.getHours() === 10) && (today.getMinutes() >= 10)) || ((today.getHours() === 11) && (today.getMinutes() < 05))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 05 , 0, 0);
+      currentblock = 3;
+    }
+    else if(((today.getHours() === 11) && (today.getMinutes() >= 05)) || ((today.getHours() === 11) && (today.getMinutes() < 33))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 33, 0, 0);
+      currentblock = 4;
+      // 5 and 6 will be here when we add lunches
+    }
+    else if(((today.getHours() === 11) && (today.getMinutes() >= 33)) || ((today.getHours() === 12) && (today.getMinutes() < 02))) {
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 02, 0, 0);
+      currentblock = 5;
+    }
+    else if(((today.getHours() === 12) && (today.getMinutes() >= 02)) || ((today.getHours() === 12) && (today.getMinutes() < 24))) {
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 24 , 0, 0);
+      currentblock = 6;
+    }
+    else if(((today.getHours() === 12) && (today.getMinutes() >= 24)) || ((today.getHours() === 13) && (today.getMinutes() < 17))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 13, 17 , 0, 0);
+      currentblock = 7;
+    }
+    else if(((today.getHours()===13)&&(today.getMinutes()>=17))||(((today.getHours()===14)) && (today.getMinutes() < 11))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), (today.getDate()), 14, 11, 0, 0);
+      currentblock = 8;
+    }
+    else if(((today.getHours()===14)&&(today.getMinutes()>11))||((today.getHours()>=14))){
+      deadline = new Date(today.getFullYear(), today.getMonth(), (today.getDate()+1), 7, 45, 0, 0);
+      currentblock = 9;
+    }
+    return deadline;
+  }
 
   var currentDay = new Date();
   var endBlock = new Date();
   if(currentDay.getDay()===2){
-    endBlock = advisoryDay(currentDay);
-  }else{
+    endBlock = tuesdayAdvisory(currentDay);
+  }else if(currentDay.getDay()===4){
+    endBlock = thursdayAdvisory(currentDay);
+  } else {
     endBlock = normalDay(currentDay);
-  }
+  } 
   return endBlock;
 }
 
