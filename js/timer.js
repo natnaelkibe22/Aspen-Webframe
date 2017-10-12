@@ -71,7 +71,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 27 , 0, 0);
       currentblock = 5;
     }
-    else if(((today.getHours() === 11 ) && (today.getMinutes() >= 27)) || ((today.getHours() === 11) && (today.getMinutes() < 49))) {
+    else if(((today.getHours() === 11 ) && (today.getMinutes() >= 27)) && ((today.getHours() === 11) && (today.getMinutes() < 49))) {
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 49 , 0, 0);
       currentblock = 6;
     }
