@@ -112,7 +112,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 05 , 0, 0);
       currentblock = 3;
     }
-    else if(((today.getHours() === 11) && (today.getMinutes() >= 05)) || ((today.getHours() === 11) && (today.getMinutes() < 33))){
+    else if(((today.getHours() === 11) && (today.getMinutes() >= 05)) && ((today.getHours() === 11) && (today.getMinutes() < 33))){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 33, 0, 0);
       currentblock = 4;
       // 5 and 6 will be here when we add lunches
@@ -121,7 +121,7 @@ function getEndBlock(){
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 02, 0, 0);
       currentblock = 5;
     }
-    else if(((today.getHours() === 12) && (today.getMinutes() >= 02)) || ((today.getHours() === 12) && (today.getMinutes() < 24))) {
+    else if(((today.getHours() === 12) && (today.getMinutes() >= 02)) && ((today.getHours() === 12) && (today.getMinutes() < 24))) {
       deadline = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12, 24 , 0, 0);
       currentblock = 6;
     }
