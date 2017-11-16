@@ -167,7 +167,7 @@ function main(){
 
   // Aspen Stuff
   var loggedOutAspen = new HttpClient();
-  loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
+  loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com/aspen/schedule', function(response) {
     try {
       var aspenInfo = JSON.parse(response);
       var lastUpdated = new Date(aspenInfo.asOf*1000);
@@ -186,17 +186,16 @@ function main(){
 
       if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
       document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
+    } catch (error) {
+      document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
+    }
+  });
 
-      if (events.length > 0){
-        document.getElementById('events-list').innerHTML = "";
-        events.forEach(function(eventObj){
-          var event = document.createElement('li');
-          event.innerHTML = eventObj.title;
-          document.getElementById('events-list').appendChild(event);
-        });
-      }
-
-      if (announcements.length > 0) {
+    var annsUrl = new HttpClient();
+    annsUrl.get('https://mhs-aspencheck-serve.herokuapp.com/announcements', function(response) {
+      try {
+        var announcements = JSON.parse(response);
+        if (announcements.length > 0) {
         //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
         //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
         var interval;
