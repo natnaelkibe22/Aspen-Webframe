@@ -1,3 +1,5 @@
+var baseEndpoint = "https://mhs-aspencheck-serve.herokuapp.com/api/v1/ma-melrose"
+
 var today = new Date();
 var day;
 var dy = 0;
@@ -22,7 +24,7 @@ var HttpClient = function() { // Thanks http://stackoverflow.com/a/22076667/1709
 function checkBillboard(){
   var url = window.location.href;
   var regex = new RegExp("[?&]billboard(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
+  results = regex.exec(url);
   if(!results){
     return false;
   }else{
@@ -33,7 +35,7 @@ function checkBillboard(){
 function checkAutoReload(){
   var url = window.location.href;
   var regex = new RegExp("[?&]autoReload(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
+  results = regex.exec(url);
   if(!results){
     return false;
   }else{
@@ -137,15 +139,15 @@ function setStartTimeOut(startDate){
 var intervalProgressBar;
 var intervalProgress = 0;
 function postNewAnnouncement(announcements, index) {
-    intervalProgress = 0;
-    document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
-    document.getElementById('announcements-list').innerHTML = "";
-    var title = (announcements[index].title);
-    var description = (announcements[index].description);
+  intervalProgress = 0;
+  document.getElementById("announcements-index").innerHTML = (index+1) + "/" + (announcements.length);
+  document.getElementById('announcements-list').innerHTML = "";
+  var title = (announcements[index].title);
+  var description = (announcements[index].description);
 
-    var ann = document.createElement('li');
-    ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
-    document.getElementById('announcements-list').appendChild(ann);
+  var ann = document.createElement('li');
+  ann.innerHTML = "<span class='announcement-title'>" + title + ": </span><span class='announcement-description'>" + description + "</span>";
+  document.getElementById('announcements-list').appendChild(ann);
 }
 
 function main(){
@@ -166,37 +168,45 @@ function main(){
   document.getElementsByTagName('head')[0].appendChild(lunchtag);
 
   // Aspen Stuff
-  var loggedOutAspen = new HttpClient();
-  loggedOutAspen.get('https://mhs-aspencheck-serve.herokuapp.com', function(response) {
-    try {
-      var aspenInfo = JSON.parse(response);
-      var lastUpdated = new Date(aspenInfo.asOf*1000);
-      var block = (aspenInfo.schedule.block);
-      var blockSchedule = (aspenInfo.schedule.blockSchedule);
-      day = (aspenInfo.schedule.day);
-      var classInSession = (aspenInfo.schedule.isClassInSession);
+  var aspenScheduleEndpoint = new HttpClient();
+  aspenScheduleEndpoint.get(baseEndpoint + "/aspen/schedule", function(response) {
+    var aspenInfo = JSON.parse(response);
+    var lastUpdated = new Date(aspenInfo.asOf*1000);
+    var block = (aspenInfo.data.block);
+    var blockOrder = (aspenInfo.data.blockOrder);
+    day = (aspenInfo.data.day);
+    var classInSession = (aspenInfo.data.isClassInSession);
 
-      var events = (aspenInfo.calendar.events);
-      var announcements = shuffleArray(aspenInfo.announcements.hs);
-      var isHalfDay = (aspenInfo.calendar.isHalfDay);
+    //var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
-      clock(isHalfDay);
+    //clock(isHalfDay);
 
-      document.getElementById('dayNumber').innerHTML = day;
+    document.getElementById('dayNumber').innerHTML = day;
 
-      if (classInSession) { document.getElementById('schedule-progress-bar').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
-      document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
+    if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
+    document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
 
-      if (events.length > 0){
-        document.getElementById('events-list').innerHTML = "";
-        events.forEach(function(eventObj){
-          var event = document.createElement('li');
-          event.innerHTML = eventObj.title;
-          document.getElementById('events-list').appendChild(event);
-        });
-      }
 
-      if (announcements.length > 0) {
+    if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
+      var blocks = "";
+      blockSchedule.forEach(function(b){
+        if (b === block) {
+          blocks += "<div class='blockContainer' style='font-weight:bolder; background-color: #fee9e9;'>"+b+"</div>";
+        } else {
+          blocks += "<div class='blockContainer'>"+b+"</div>";
+        }
+      });
+      document.getElementById('schedule-body').innerHTML = blocks;
+    } else {
+      document.getElementById('schedule-panel').parentElement.innerHTML = "";
+    }
+  });
+
+  var announcementsEndpoint = new HttpClient();
+  announcementsEndpoint.get(baseEndpoint + "/announcements", function(response) {
+    var announcementsJson = JSON.parse(response);
+    var announcements = announcementsJson.data;
+    if (announcements.length > 0) {
         //These function are inside this if so that I don't feel bad about making announcementIndex have a large scope
         //If they need to be used elsewhere, feel free to move them, but then announcementIndex will have to have an expanded scope
         var interval;
@@ -295,28 +305,10 @@ function main(){
         postNewAnnouncement(announcements, 0);
         interval = startAnnouncementCycle(announcements);
       }
-
-      if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
-        var blocks = "";
-        blockSchedule.forEach(function(b){
-          if (b === block) {
-            blocks += "<div class='blockContainer' style='font-weight:bolder; background-color: #fee9e9;'>"+b+"</div>";
-          } else {
-            blocks += "<div class='blockContainer'>"+b+"</div>";
-          }
-        });
-        document.getElementById('schedule-body').innerHTML = blocks;
-      } else {
-        document.getElementById('schedule-panel').parentElement.innerHTML = "";
-      }
-    } catch (error) {
-      document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
-      clock(false);
-    } finally {
-      // Once loading is complete, render page
-      document.getElementById('mHeader').innerHTML = "M";
-    }
-  });
+    });
+clock(false);
+//document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
+document.getElementById('mHeader').innerHTML = "M";
 }
 
 function tweakNotificationsToggleButton() {
