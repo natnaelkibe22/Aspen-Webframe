@@ -1,4 +1,4 @@
-var baseEndpoint = "https://mhs-aspencheck-serve.herokuapp.com/api/v1/ma-melrose"
+var baseEndpoint = "https://aspencheck.herokuapp.com/api/v1/ma-melrose"
 
 var today = new Date();
 var day;
