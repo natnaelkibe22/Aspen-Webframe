@@ -176,6 +176,7 @@ function main(){
     var blockOrder = (aspenInfo.data.blockOrder);
     day = (aspenInfo.data.day);
     var classInSession = (aspenInfo.data.isClassInSession);
+    var blockSchedule = (aspenInfo.data.blockOrder);
 
     //var isHalfDay = (aspenInfo.calendar.isHalfDay);
 
@@ -198,6 +199,7 @@ function main(){
       });
       document.getElementById('schedule-body').innerHTML = blocks;
     } else {
+      alert("HALLO");
       document.getElementById('schedule-panel').parentElement.innerHTML = "";
     }
   });
