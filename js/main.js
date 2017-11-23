@@ -199,7 +199,6 @@ function main(){
       });
       document.getElementById('schedule-body').innerHTML = blocks;
     } else {
-      alert("HALLO");
       document.getElementById('schedule-panel').parentElement.innerHTML = "";
     }
   });
