@@ -68,15 +68,15 @@ function getTimeOfDayMillis(date){
 function clock(isHalfDay){
   // Thanks to http://stackoverflow.com/a/36524883/1709894 and https://www.w3schools.com/howto/howto_js_countdown.asp
   const start = new Date();
-  start.setHours(7, 45, 0, 0);
+  start.setHours(8, 15, 0, 0); // The start of school time
   const startTime = start.getTime();
   var countDownDate = new Date();
   var time = +countDownDate;
 
   if (isHalfDay){
-    countDownDate.setHours(12,11,10,0);
+    countDownDate.setHours(12,41,10,0); // Half day end time
   } else {
-    countDownDate.setHours(14,11,10,0);
+    countDownDate.setHours(14,41,10,0); // Normal end time
   }
   if (countDownDate < time) {
     countDownDate.setDate(countDownDate.getDate() + 1);
