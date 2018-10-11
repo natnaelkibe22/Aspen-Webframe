@@ -28,7 +28,7 @@ ul {
 #mainInfoWrapper {
   margin-left: 10%;
   margin-right: 10%;
-  font-size: 1.5em; /*I dont like to use vw because it messes up fonts on phones*/
+  font-size: 2em; /*I dont like to use vw because it messes up fonts on phones*/
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -55,6 +55,7 @@ ul {
   overflow: hidden;
   flex-direction: row;
   align-items: stretch;
+  font-size: larger;
 }
 
 .announcement-title {
@@ -62,7 +63,7 @@ ul {
 }
 
 #announcements-list {
-  font-size: smaller;
+  
 }
 
 #announcements-heading{

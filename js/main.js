@@ -110,8 +110,6 @@ var timer = setInterval(function() {
     hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    updateEndBlock();
   }
 
   document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
@@ -185,7 +183,7 @@ function main(){
     document.getElementById('dayNumber').innerHTML = day;
 
     if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
-    document.getElementById('lastUpdated').innerHTML = (lastUpdated.getMonth() + 1) + "/" + (lastUpdated.getDate()) + " " + (lastUpdated.getHours()) + ":" + (lastUpdated.getMinutes()) + ":" + (lastUpdated.getSeconds());
+    document.getElementById('lastUpdated').innerHTML = lastUpdated.toLocaleString();
 
 
     if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){

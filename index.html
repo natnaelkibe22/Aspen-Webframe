@@ -17,7 +17,6 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
 
   <!-- JavaScript -->
-  <script type="text/javascript" src="js/timer.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N86MJ8V');</script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -70,7 +69,7 @@
     </div>
 
     <div class="page-header">
-      <h1>Today's Information <small id="lastUpdated" style="font-size: small;"></small> </h1>
+      <h1>Today's Information <small id="lastUpdated" style="justify-content: flex-end;"></small> </h1>
     </div>
 
 
@@ -109,15 +108,6 @@
           <span id='dayTimer'>Calculating...</span>
         </div>
       </div>
-
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title" id="endOfTimeTitle">End of Block</h3>
-        </div>
-        <div class="panel-body">
-          <span id='blockTime'>Calculating...</span>
-        </div>
-      </div>
     </div>
 
     <div class="col-sm-4">
@@ -126,17 +116,6 @@
           <h3 class="panel-title">Lunch Special</h3>
         </div>
         <div class="panel-body" id="lunch-body">Unknown Lunch</div>
-      </div>
-
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title">Events</h3>
-        </div>
-        <div class="panel-body">
-          <ul id="events-list">
-            <li>No Events</li>
-          </ul>
-        </div>
       </div>
     </div>
 
