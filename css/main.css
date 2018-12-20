@@ -115,7 +115,8 @@ ul {
 }
 
 .blockContainer{
-  flex: 1 0 auto;
+  /*flex: 100 0 auto;*/
+  width: 16.6%;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -124,13 +125,20 @@ ul {
   border-bottom: solid #f2dede thin;
 }
 
-.blockContainer:nth-child(4)::before{
+.lunchBlock::before{
   content: "\f0f5";
   margin-right: .3em;
   font-family: FontAwesome;
 }
 
-.blockContainer:nth-child(6) {
+.flexBlock::before{
+  content: "\f1d0";
+  margin-right: .3em;
+  margin-left: .3em;
+  font-family: FontAwesome;
+}
+
+.noBorder {
   border-right: none;
 }
 
