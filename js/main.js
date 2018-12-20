@@ -82,40 +82,40 @@ function clock(isHalfDay){
     countDownDate.setDate(countDownDate.getDate() + 1);
   }
 
-// Update the count down every 1 second
-var timer = setInterval(function() {
-  var currentDate = new Date();
-  var now = currentDate.getTime();
-  var distance = countDownDate - now;
-  var fullDay = countDownDate - startTime;
-  var percentThroughDay = (((now-startTime)/fullDay)*100);
-  var hours, minutes, seconds;
-  if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate)){
-    percentThroughDay = 100;
-    hours = 0;
-    minutes = 0;
-    seconds = 0;
-    clearInterval(timer);
-    setStartTimeOut(start);
-  }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
-    percentThroughDay = 0;
-    hours = 0;
-    minutes = 0;
-    seconds = 0;
-    clearInterval(timer);
-    setStartTimeOut(start);
-  } else{
-    hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  }
+  // Update the count down every 1 second
+  var timer = setInterval(function() {
+    var currentDate = new Date();
+    var now = currentDate.getTime();
+    var distance = countDownDate - now;
+    var fullDay = countDownDate - startTime;
+    var percentThroughDay = (((now-startTime)/fullDay)*100);
+    var hours, minutes, seconds;
+    if (percentThroughDay > 100 || getTimeOfDayMillis(currentDate) > getTimeOfDayMillis(countDownDate)){
+      percentThroughDay = 100;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+      clearInterval(timer);
+      setStartTimeOut(start);
+    }else if(getTimeOfDayMillis(start) > getTimeOfDayMillis(currentDate)){
+      percentThroughDay = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+      clearInterval(timer);
+      setStartTimeOut(start);
+    } else{
+      hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    }
 
-  document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
-  if (document.getElementById('schedule-progress-bar') !== null) {
-    document.getElementById('schedule-progress-bar').setAttribute('style', 'width: ' + percentThroughDay + '%;');
-    document.getElementById('schedule-progress-bar').innerHTML = Math.floor(percentThroughDay) + '%';
-  }
-}, 1000);
+    document.getElementById("dayTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    if (document.getElementById('schedule-progress-bar') !== null) {
+      document.getElementById('schedule-progress-bar').setAttribute('style', 'width: ' + percentThroughDay + '%;');
+      document.getElementById('schedule-progress-bar').innerHTML = Math.floor(percentThroughDay) + '%';
+    }
+  }, 1000);
 }
 
 function setStartTimeOut(startDate){
@@ -183,14 +183,57 @@ function main(){
     if (classInSession) { document.getElementById('dayProgress').setAttribute('class', 'progress-bar progress-bar-striped progress-bar-danger active'); }
     document.getElementById('lastUpdated').innerHTML = lastUpdated.toLocaleString();
 
+    block_percent_map = {
+      0: 15.54,
+      1: 15.54,
+      2: 15.54,
+      3: 21.76,
+      4: 15.54,
+      5: 15.54
+    }
+
+    block_percent_map_tue = {
+      0: 14.77,
+      1: 14.25,
+      2: 14.25,
+      3: 20.21,
+      4: 14.25,
+      "f": 8.55,
+      5: 13.99
+    }
+
+    block_percent_map_thu = {
+      0: 14.77,
+      1: 14.25,
+      "f": 8.55,
+      2: 14.25,
+      3: 20.47,
+      4: 13.73,
+      5: 13.99
+    }
+
 
     if (typeof blockSchedule !== "undefined" && blockSchedule.length > 0){
       var blocks = "";
-      blockSchedule.forEach(function(b){
+      flex_block = -1;
+      num_day = (new Date()).getDay();
+      if(num_day === 2){
+        flex_block = 4;
+        block_percent_map = block_percent_map_tue;
+      }else if(num_day === 4){
+        flex_block = 1;
+        block_percent_map = block_percent_map_thu;
+      }
+      blockSchedule.forEach(function(b, index){
+        lunch_class = index === 3 ? 'lunchBlock' : '';
+        last_class = index === 5 ? 'noBorder' : '';
         if (b === block) {
-          blocks += "<div class='blockContainer' style='font-weight:bolder; background-color: #fee9e9;'>"+b+"</div>";
+          blocks += "<div class='blockContainer "+lunch_class+" "+last_class+"' style='font-weight:bolder; background-color: #fee9e9; width: "+block_percent_map[index]+"%'>"+b+"</div>";
         } else {
-          blocks += "<div class='blockContainer'>"+b+"</div>";
+          blocks += "<div class='blockContainer "+lunch_class+" "+last_class+"' style='width: "+block_percent_map[index]+"%'>"+b+"</div>";
+        }
+        if(index == flex_block){
+          blocks += "<div class='blockContainer flexBlock' style='width: "+block_percent_map["f"]+"%'></div>"
         }
       });
       document.getElementById('schedule-body').innerHTML = blocks;
@@ -303,9 +346,9 @@ function main(){
         interval = startAnnouncementCycle(announcements);
       }
     });
-clock(false);
-//document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
-document.getElementById('mHeader').innerHTML = "M";
+  clock(false);
+  //document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
+  document.getElementById('mHeader').innerHTML = "M";
 }
 
 function tweakNotificationsToggleButton() {

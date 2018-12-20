@@ -20,6 +20,12 @@ ul {
   to { transform: scale(1) rotate(360deg); }
 }
 
+.page-header {
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between;
+}
+
 .panel-title {
   font-weight: bolder;
   font-size: inherit;
@@ -52,6 +58,7 @@ ul {
 #schedule-body{
   padding: 0;
   display: flex;
+  border-bottom: solid #f2dede thin;
   overflow: hidden;
   flex-direction: row;
   align-items: stretch;
@@ -121,16 +128,22 @@ ul {
   align-content: center;
   padding: 15px;
   border-right: solid #f2dede thin;
-  border-bottom: solid #f2dede thin;
 }
 
-.blockContainer:nth-child(4)::before{
+.lunchBlock::before{
   content: "\f0f5";
   margin-right: .3em;
   font-family: FontAwesome;
 }
 
-.blockContainer:nth-child(6) {
+.flexBlock::before{
+  content: "\f1d0";
+  margin-right: .3em;
+  margin-left: .3em;
+  font-family: FontAwesome;
+}
+
+.noBorder {
   border-right: none;
 }
 
@@ -169,6 +182,14 @@ ul {
 
   #mainInfoWrapper{
     font-size: 1.5em;
+  }
+
+  .page-header{
+    flex-direction: column;
+  }
+
+  #lastUpdated {
+    font-size: 5vw;
   }
 }
 
