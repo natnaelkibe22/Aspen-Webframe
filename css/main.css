@@ -58,6 +58,7 @@ ul {
 #schedule-body{
   padding: 0;
   display: flex;
+  border-bottom: solid #f2dede thin;
   overflow: hidden;
   flex-direction: row;
   align-items: stretch;
@@ -127,7 +128,6 @@ ul {
   align-content: center;
   padding: 15px;
   border-right: solid #f2dede thin;
-  border-bottom: solid #f2dede thin;
 }
 
 .lunchBlock::before{

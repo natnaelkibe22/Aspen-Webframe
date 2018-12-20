@@ -228,9 +228,9 @@ function main(){
         lunch_class = index === 3 ? 'lunchBlock' : '';
         last_class = index === 5 ? 'noBorder' : '';
         if (b === block) {
-          blocks += "<div class='blockContainer "+lunch_class+"' style='font-weight:bolder; background-color: #fee9e9; width: "+block_percent_map[index]+"%'>"+b+"</div>";
+          blocks += "<div class='blockContainer "+lunch_class+" "+last_class+"' style='font-weight:bolder; background-color: #fee9e9; width: "+block_percent_map[index]+"%'>"+b+"</div>";
         } else {
-          blocks += "<div class='blockContainer "+lunch_class+"' style='width: "+block_percent_map[index]+"%'>"+b+"</div>";
+          blocks += "<div class='blockContainer "+lunch_class+" "+last_class+"' style='width: "+block_percent_map[index]+"%'>"+b+"</div>";
         }
         if(index == flex_block){
           blocks += "<div class='blockContainer flexBlock' style='width: "+block_percent_map["f"]+"%'></div>"
