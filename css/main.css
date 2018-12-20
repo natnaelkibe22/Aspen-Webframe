@@ -137,7 +137,7 @@ ul {
 }
 
 .flexBlock::before{
-  content: "\f1d0";
+  content: "\f44b";
   margin-right: .3em;
   margin-left: .3em;
   font-family: FontAwesome;
