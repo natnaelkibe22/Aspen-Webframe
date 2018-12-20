@@ -131,16 +131,18 @@ ul {
 }
 
 .lunchBlock::before{
-  content: "\f0f5";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f2e7";
   margin-right: .3em;
-  font-family: FontAwesome;
 }
 
 .flexBlock::before{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
   content: "\f44b";
   margin-right: .3em;
   margin-left: .3em;
-  font-family: FontAwesome;
 }
 
 .noBorder {
