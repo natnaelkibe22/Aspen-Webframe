@@ -346,9 +346,9 @@ function main(){
         interval = startAnnouncementCycle(announcements);
       }
     });
-clock(false);
-//document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
-document.getElementById('mHeader').innerHTML = "M";
+  clock(false);
+  //document.getElementById('fetchIssue').setAttribute('style', 'display:inherit;');
+  document.getElementById('mHeader').innerHTML = "M";
 }
 
 function tweakNotificationsToggleButton() {
